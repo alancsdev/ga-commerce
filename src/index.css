@@ -55,3 +55,15 @@ table th {
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
 }
+
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+
+@media (min-width: 2000px) {
+  .container {
+    max-width: 2000px;
+  }
+}

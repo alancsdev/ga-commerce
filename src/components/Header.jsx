@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import {
   Navbar,
-  MobileNav,
   Typography,
   Button,
   IconButton,
   Input,
+  Collapse,
 } from '@material-tailwind/react';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import logo from '../assets/ga-logo.png';
@@ -41,7 +41,7 @@ function Header() {
       >
         <FaUser />
         <a href="#" className="flex items-center">
-          User
+          Sign In
         </a>
       </Typography>
     </ul>
@@ -60,7 +60,6 @@ function Header() {
           </Typography>
         </div>
         <div className="hidden w-3/4 lg:flex justify-end items-center gap-4">
-          <div className="hidden lg:block">{navList}</div>
           <div className="hidden items-center gap-x-2 lg:flex">
             <div className="relative flex w-full gap-2 md:w-max">
               <Input
@@ -100,6 +99,7 @@ function Header() {
               Search
             </Button>
           </div>
+          <div className="hidden lg:block">{navList}</div>
         </div>
         <IconButton
           variant="text"
@@ -139,7 +139,7 @@ function Header() {
           )}
         </IconButton>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         <div className="container">
           {navList}
           <div className="flex flex-col gap-x-2 sm:flex-row sm:items-center">
@@ -182,7 +182,7 @@ function Header() {
             </Button>
           </div>
         </div>
-      </MobileNav>
+      </Collapse>
     </Navbar>
   );
 }
