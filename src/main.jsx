@@ -3,11 +3,28 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 import { ThemeProvider } from '@material-tailwind/react';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from 'react-router-dom';
+import HomePage from './pages/HomePage/HomePage.jsx';
+import ProductDetailsPage from './pages/ProductDetailsPage/ProductDetailsPage.jsx';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<App />}>
+      <Route index={true} path="/" element={<HomePage />} />
+      <Route path="/product/:id" element={<ProductDetailsPage />} />
+    </Route>
+  )
+);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider>
-      <App />
+      <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>
 );

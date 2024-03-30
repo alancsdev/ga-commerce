@@ -9,6 +9,7 @@ import {
 } from '@material-tailwind/react';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import logo from '../assets/ga-logo.png';
+import { Link } from 'react-router-dom';
 
 function Header() {
   const [openNav, setOpenNav] = useState(false);
@@ -29,9 +30,9 @@ function Header() {
         className="flex items-center gap-x-2 p-1 font-medium"
       >
         <FaShoppingCart />
-        <a href="#" className="flex items-center">
+        <Link to="/cart" className="flex items-center">
           Cart
-        </a>
+        </Link>
       </Typography>
       <Typography
         as="li"
@@ -40,9 +41,9 @@ function Header() {
         className="flex items-center gap-x-2 p-1 font-medium"
       >
         <FaUser />
-        <a href="#" className="flex items-center">
+        <Link to="/login" className="flex items-center">
           Sign In
-        </a>
+        </Link>
       </Typography>
     </ul>
   );
@@ -50,14 +51,10 @@ function Header() {
   return (
     <Navbar className="mx-auto rounded-none min-w-full px-4 py-2 lg:px-8 lg:py-4">
       <div className="container min-w-full flex flex-wrap items-center justify-between text-blue-gray-900">
-        <div className="w-1/4">
-          <Typography
-            as="a"
-            href="#"
-            className="mr-4 cursor-pointer font-medium"
-          >
+        <div className="w-1/4 flex">
+          <Link to="/" className="mr-4 cursor-pointer font-medium">
             <img className="h-10" src={logo} alt="GA Commerce" />
-          </Typography>
+          </Link>
         </div>
         <div className="hidden w-3/4 lg:flex justify-end items-center gap-4">
           <div className="hidden items-center gap-x-2 lg:flex">
