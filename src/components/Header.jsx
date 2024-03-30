@@ -8,6 +8,7 @@ import {
   Input,
 } from '@material-tailwind/react';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import logo from '../assets/ga-logo.png';
 
 function Header() {
   const [openNav, setOpenNav] = useState(false);
@@ -53,9 +54,9 @@ function Header() {
           <Typography
             as="a"
             href="#"
-            className="mr-4 cursor-pointer py-1.5 font-medium"
+            className="mr-4 cursor-pointer font-medium"
           >
-            GA Commerce
+            <img className="h-10" src={logo} alt="GA Commerce" />
           </Typography>
         </div>
         <div className="hidden w-3/4 lg:flex justify-end items-center gap-4">
