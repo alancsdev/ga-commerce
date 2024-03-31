@@ -10,7 +10,7 @@ const ProductDetailsPage = () => {
   const product = products.find((product) => product._id === productId);
   return (
     <div className="flex justify-center">
-      <div className="mx-4 md:mx-10 xl:mx-10 2xl:mx-40 bk1:max-w-7xl">
+      <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl">
         <Link to="/">
           <Button>Go Back</Button>
         </Link>
