@@ -1,4 +1,4 @@
-import products from '../products.js';
+import products from '../src/products.js';
 
 const productController = {
   index: async (req, res) => {

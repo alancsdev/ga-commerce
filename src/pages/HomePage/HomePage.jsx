@@ -1,8 +1,20 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Typography } from '@material-tailwind/react';
-import products from '../../products';
 import Product from '../../components/Product';
 
 function HomePage() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get('/api/products');
+      setProducts(data);
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="flex justify-center">
       <div className="mx-4 md:mx-10 xl:mx-10 bk1:max-w-7xl">

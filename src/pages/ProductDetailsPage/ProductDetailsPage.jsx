@@ -1,13 +1,35 @@
 import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Rating from '../../components/Rating';
-import products from '../../products';
 import { Button, Typography } from '@material-tailwind/react';
 import { FaShoppingCart } from 'react-icons/fa';
+import axios from 'axios';
 
 const ProductDetailsPage = () => {
+  const [product, setProduct] = useState({
+    _id: '',
+    name: '',
+    image: '',
+    description: '',
+    brand: '',
+    category: '',
+    price: 0,
+    amountInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  });
+
   const { id: productId } = useParams();
-  const product = products.find((product) => product._id === productId);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${productId}`);
+      setProduct(data);
+    };
+    fetchProduct();
+  }, [productId]);
+
   return (
     <div className="flex justify-center">
       <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl">
@@ -46,16 +68,16 @@ const ProductDetailsPage = () => {
             <Typography
               variant="paragraph"
               className="font-medium text-2xl inline-block pl-2"
-              color={product.countInStock > 0 ? 'green' : 'red'}
+              color={product.amountInStock > 0 ? 'green' : 'red'}
             >
-              {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
+              {product.amountInStock > 0 ? 'In Stock' : 'Out Of Stock'}
             </Typography>
             <hr className="my-2 border-t border-gray-300" />
             <div className="flex justify-center">
               <Button
                 variant="gradient"
                 className="flex items-center gap-3"
-                disabled={product.countInStock === 0}
+                disabled={product.amountInStock === 0}
               >
                 <FaShoppingCart />
                 Add to cart
