@@ -2,8 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* 100% - navbar - footer */
 main {
-  min-height: 80vh;
+  min-height: calc(100vh - 75px - 75px);
+}
+
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 100% - navbar - footer - py-3 */
+  height: calc(100vh - 74px - 75px - 24px);
+}
+
+@media (max-width: 959px) {
+  main {
+    min-height: calc(100vh - 58px - 75px);
+  }
+  .loader-container {
+    height: calc(100vh - 58px - 75px - 24px);
+  }
+}
+
+@media (max-width: 612px) {
+  main {
+    min-height: calc(100vh - 58px - 125px);
+  }
+  .loader-container {
+    height: calc(100vh - 58px - 125px - 24px);
+  }
 }
 
 .rating svg {
