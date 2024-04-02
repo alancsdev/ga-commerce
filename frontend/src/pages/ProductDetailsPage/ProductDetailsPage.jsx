@@ -1,19 +1,33 @@
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import Rating from '../../components/Rating';
-import { Button, Typography } from '@material-tailwind/react';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { FaShoppingCart } from 'react-icons/fa';
+import { Button, Typography, Select, Option } from '@material-tailwind/react';
+import Rating from '../../components/Rating';
 import Message from '../../components/Message';
 import { useGetProductDetailsQuery } from '../../slices/productsApiSlice';
+import { addToCart } from '../../slices/cartSlice';
 
 const ProductDetailsPage = () => {
+  const [amount, setAmount] = useState(1);
+
   const { id: productId } = useParams();
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const {
     data: product,
     isLoading,
     error,
   } = useGetProductDetailsQuery(productId);
+
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, amount }));
+    navigate('/cart');
+  };
 
   return (
     <div className="flex justify-center">
@@ -39,19 +53,24 @@ const ProductDetailsPage = () => {
               </div>
               <div className="col">
                 <Typography variant="h3">{product.name}</Typography>
+
                 <hr className="my-2 border-t border-gray-300" />
+
                 <Rating
                   value={product.rating}
                   text={product.numReviews}
                   className={'text-3xl'}
                 />
+
                 <hr className="my-2 border-t border-gray-300" />
+
                 <Typography
                   variant="paragraph"
                   className="font-medium text-2xl"
                 >
                   Price: $ {product.price}
                 </Typography>
+
                 <hr className="my-2 border-t border-gray-300" />
 
                 <Typography
@@ -60,6 +79,7 @@ const ProductDetailsPage = () => {
                 >
                   Status:
                 </Typography>
+
                 <Typography
                   variant="paragraph"
                   className="font-medium text-2xl inline-block pl-2"
@@ -67,17 +87,43 @@ const ProductDetailsPage = () => {
                 >
                   {product.amountInStock > 0 ? 'In Stock' : 'Out Of Stock'}
                 </Typography>
+
                 <hr className="my-2 border-t border-gray-300" />
-                <div className="flex justify-center">
-                  <Button
-                    variant="gradient"
-                    className="flex items-center gap-3"
-                    disabled={product.amountInStock === 0}
-                  >
-                    <FaShoppingCart />
-                    Add to cart
-                  </Button>
-                </div>
+
+                {/* Converting values to string because the component only accepts string */}
+                <Select
+                  className="text-xl"
+                  variant="standard"
+                  label="Select amount"
+                  value={amount.toString()}
+                  onChange={(val) => setAmount(parseInt(val))}
+                  animate={{
+                    mount: { y: 0 },
+                    unmount: { y: 25 },
+                  }}
+                  disabled={product.amountInStock === 0}
+                >
+                  {/* Loading the amount of items in stock */}
+                  {product.amountInStock &&
+                    Array.from(
+                      { length: product.amountInStock },
+                      (_, index) => (
+                        <Option key={index + 1} value={(index + 1).toString()}>
+                          {(index + 1).toString()}
+                        </Option>
+                      )
+                    )}
+                </Select>
+
+                <Button
+                  variant="gradient"
+                  className="flex items-center justify-center gap-3 w-full mt-4"
+                  disabled={product.amountInStock === 0}
+                  onClick={addToCartHandler}
+                >
+                  <FaShoppingCart />
+                  Add to cart
+                </Button>
               </div>
             </div>
             <div className="mt-4">
