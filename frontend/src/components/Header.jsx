@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Navbar,
   Typography,
@@ -6,12 +7,16 @@ import {
   IconButton,
   Input,
   Collapse,
+  Badge,
 } from '@material-tailwind/react';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import logo from '../assets/ga-logo.png';
 import { Link } from 'react-router-dom';
 
 function Header() {
+  //Cart from store.js
+  const { cartItems } = useSelector((state) => state.cart);
+
   const [openNav, setOpenNav] = useState(false);
 
   useEffect(() => {
@@ -31,7 +36,19 @@ function Header() {
       >
         <FaShoppingCart />
         <Link to="/cart" className="flex items-center">
-          Cart
+          {cartItems.length > 0 ? (
+            <Badge
+              content={cartItems.reduce(
+                (acc, current) => acc + current.quantity,
+                0
+              )}
+              className="left-3 font-bold min-w-5 min-h-5"
+            >
+              Cart
+            </Badge>
+          ) : (
+            'Cart'
+          )}
         </Link>
       </Typography>
       <Typography

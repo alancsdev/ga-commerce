@@ -8,5 +8,15 @@ module.exports = withMT({
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.overflow-custom-visible': {
+          overflow: 'visible !important',
+        },
+      };
+
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    },
+  ],
 });

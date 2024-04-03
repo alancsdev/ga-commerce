@@ -121,3 +121,11 @@ table th {
   > label {
   font-size: 1rem;
 }
+
+.custom-limit-width > div {
+  min-width: 80px;
+}
+
+.custom-margin-message > div:nth-child(2) {
+  margin-right: 0px;
+}

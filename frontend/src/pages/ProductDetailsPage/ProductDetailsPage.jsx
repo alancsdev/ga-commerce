@@ -10,7 +10,7 @@ import { useGetProductDetailsQuery } from '../../slices/productsApiSlice';
 import { addToCart } from '../../slices/cartSlice';
 
 const ProductDetailsPage = () => {
-  const [amount, setAmount] = useState(1);
+  const [quantity, setQuantity] = useState(1);
 
   const { id: productId } = useParams();
 
@@ -25,7 +25,7 @@ const ProductDetailsPage = () => {
   } = useGetProductDetailsQuery(productId);
 
   const addToCartHandler = () => {
-    dispatch(addToCart({ ...product, amount }));
+    dispatch(addToCart({ ...product, quantity }));
     navigate('/cart');
   };
 
@@ -83,9 +83,9 @@ const ProductDetailsPage = () => {
                 <Typography
                   variant="paragraph"
                   className="font-medium text-2xl inline-block pl-2"
-                  color={product.amountInStock > 0 ? 'green' : 'red'}
+                  color={product.quantityInStock > 0 ? 'green' : 'red'}
                 >
-                  {product.amountInStock > 0 ? 'In Stock' : 'Out Of Stock'}
+                  {product.quantityInStock > 0 ? 'In Stock' : 'Out Of Stock'}
                 </Typography>
 
                 <hr className="my-2 border-t border-gray-300" />
@@ -94,19 +94,19 @@ const ProductDetailsPage = () => {
                 <Select
                   className="text-xl"
                   variant="standard"
-                  label="Select amount"
-                  value={amount.toString()}
-                  onChange={(val) => setAmount(parseInt(val))}
+                  label="Select quantity"
+                  value={quantity.toString()}
+                  onChange={(val) => setQuantity(parseInt(val))}
                   animate={{
                     mount: { y: 0 },
                     unmount: { y: 25 },
                   }}
-                  disabled={product.amountInStock === 0}
+                  disabled={product.quantityInStock === 0}
                 >
-                  {/* Loading the amount of items in stock */}
-                  {product.amountInStock &&
+                  {/* Loading the quantity of items in stock */}
+                  {product.quantityInStock &&
                     Array.from(
-                      { length: product.amountInStock },
+                      { length: product.quantityInStock },
                       (_, index) => (
                         <Option key={index + 1} value={(index + 1).toString()}>
                           {(index + 1).toString()}
@@ -118,7 +118,7 @@ const ProductDetailsPage = () => {
                 <Button
                   variant="gradient"
                   className="flex items-center justify-center gap-3 w-full mt-4"
-                  disabled={product.amountInStock === 0}
+                  disabled={product.quantityInStock === 0}
                   onClick={addToCartHandler}
                 >
                   <FaShoppingCart />

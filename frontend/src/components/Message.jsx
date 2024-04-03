@@ -9,7 +9,11 @@ const Message = ({ variant, children }) => {
       : { color: 'blue', icon: <FaInfoCircle /> };
 
   return (
-    <Alert color={color} icon={icon} className="items-center">
+    <Alert
+      color={color}
+      icon={icon}
+      className="items-center custom-margin-message"
+    >
       {children}
     </Alert>
   );
