@@ -48,20 +48,23 @@ const CartPage = () => {
         ) : (
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex w-full lg:w-2/3">
-              <Card className="w-full">
+              <Card className="w-full border-x-8 border-y-4 shadow-lg">
                 <List className="">
                   {cartItems.map((item) => (
                     <ListItem
                       key={item._id}
                       ripple={false}
-                      className="overflow-custom-visible hover:bg-transparent"
+                      className="!overflow-visible hover:bg-transparent hover:cursor-default"
                     >
                       <div className="flex w-2/3 lg:w-3/4 flex-row">
-                        <img
-                          className="w-24 rounded-xl"
-                          src={item.image}
-                          alt={item.name}
-                        />
+                        <Link to={`/product/${item._id}`}>
+                          <img
+                            className="w-24 rounded-xl"
+                            src={item.image}
+                            alt={item.name}
+                          />
+                        </Link>
+
                         <Typography variant={'paragraph'} className="pl-4">
                           <Link to={`/product/${item._id}`}>{item.name}</Link>
                         </Typography>
@@ -115,7 +118,7 @@ const CartPage = () => {
               </Card>
             </div>
             <div className="flex lg:w-1/3 max-h-[280px]">
-              <Card className="w-full p-4">
+              <Card className="w-full p-4 border-x-8 border-y-4 shadow-lg">
                 <div className="">
                   <Typography variant={'h3'}>
                     {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{' '}
