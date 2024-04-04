@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FaShoppingCart } from 'react-icons/fa';
-import { Button, Typography, Select, Option } from '@material-tailwind/react';
+import { Button, Typography } from '@material-tailwind/react';
 import Rating from '../../components/Rating';
 import Message from '../../components/Message';
 import { useGetProductDetailsQuery } from '../../slices/productsApiSlice';
@@ -32,7 +32,7 @@ const ProductDetailsPage = () => {
   return (
     <div className="flex justify-center">
       <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl">
-        <div className="flex justify-center">
+        <div className="flex justify-end">
           <Link to="/">
             <Button>Go Back</Button>
           </Link>
@@ -68,7 +68,7 @@ const ProductDetailsPage = () => {
                   variant="paragraph"
                   className="font-medium text-2xl"
                 >
-                  Price: $ {product.price}
+                  Price: $ {product.price.toFixed(2)}
                 </Typography>
 
                 <hr className="my-2 border-t border-gray-300" />
@@ -89,31 +89,6 @@ const ProductDetailsPage = () => {
                 </Typography>
 
                 <hr className="my-2 border-t border-gray-300" />
-
-                {/* Converting values to string because the component only accepts string */}
-                <Select
-                  className="text-xl"
-                  variant="standard"
-                  label="Select quantity"
-                  value={quantity.toString()}
-                  onChange={(val) => setQuantity(parseInt(val))}
-                  animate={{
-                    mount: { y: 0 },
-                    unmount: { y: 25 },
-                  }}
-                  disabled={product.quantityInStock === 0}
-                >
-                  {/* Loading the quantity of items in stock */}
-                  {product.quantityInStock &&
-                    Array.from(
-                      { length: product.quantityInStock },
-                      (_, index) => (
-                        <Option key={index + 1} value={(index + 1).toString()}>
-                          {(index + 1).toString()}
-                        </Option>
-                      )
-                    )}
-                </Select>
 
                 <Button
                   variant="gradient"

@@ -1,30 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { updateCart } from '../utils/cartUtils';
 
+// Get initial cart state from localStorage, or set it to an empty array if not found
 const initialState = localStorage.getItem('cart')
   ? JSON.parse(localStorage.getItem('cart'))
   : { cartItems: [] };
 
+// Create a slice for managing the cart state
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const item = action.payload;
+      const newItem = action.payload;
 
-      const existingItem = state.cartItems.find((x) => x._id === item._id);
+      // Check if the item already exists in the cart
+      const existingItemIndex = state.cartItems.findIndex(
+        (item) => item._id === newItem._id
+      );
 
-      if (existingItem) {
-        state.cartItems = state.cartItems.map((x) =>
-          x._id === existingItem._id ? item : x
-        );
+      if (existingItemIndex !== -1) {
+        // If item already exists, replace it with the new item
+        state.cartItems[existingItemIndex] = newItem;
       } else {
-        state.cartItems = [...state.cartItems, item];
+        // If item doesn't exist, add it to the cart
+        state.cartItems.push(newItem);
       }
 
       updateCart(state);
     },
     removeFromCart: (state, action) => {
+      // Filter out the item with the provided ID
       state.cartItems = state.cartItems.filter((x) => x._id !== action.payload);
 
       return updateCart(state);

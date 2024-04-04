@@ -1,53 +1,26 @@
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 
 const Rating = ({ value, text, className }) => {
+  const renderStars = () => {
+    const stars = [];
+    const roundedValue = Math.round(value * 2) / 2; // Round the value to the nearest half star
+
+    for (let i = 0; i < 5; i++) {
+      if (roundedValue >= i + 1) {
+        stars.push(<FaStar key={i} />);
+      } else if (roundedValue >= i + 0.5) {
+        stars.push(<FaStarHalfAlt key={i} />);
+      } else {
+        stars.push(<FaRegStar key={i} />);
+      }
+    }
+
+    return stars;
+  };
+
   return (
     <div className={`rating flex items-center ${className}`}>
-      <span>
-        {value > 1 ? (
-          <FaStar />
-        ) : value >= 0.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value > 2 ? (
-          <FaStar />
-        ) : value >= 1.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value > 3 ? (
-          <FaStar />
-        ) : value >= 2.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value > 4 ? (
-          <FaStar />
-        ) : value >= 3.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value > 5 ? (
-          <FaStar />
-        ) : value >= 4.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
+      {renderStars()}
       <span className="rating-text">{text && `${text} reviews`}</span>
     </div>
   );

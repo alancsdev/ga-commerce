@@ -17,6 +17,7 @@ const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // Select cart state from Redux store
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
@@ -36,6 +37,7 @@ const CartPage = () => {
         >
           Welcome to your cart!
         </Typography>
+        {/* Message if cart is empty */}
         {cartItems.length === 0 ? (
           <Message>
             <div className="flex items-center">
@@ -47,6 +49,7 @@ const CartPage = () => {
           </Message>
         ) : (
           <div className="flex flex-col lg:flex-row gap-4">
+            {/* Cart items */}
             <div className="flex w-full lg:w-2/3">
               <Card className="w-full border-x-8 border-y-4 shadow-lg">
                 <List className="">
@@ -56,6 +59,7 @@ const CartPage = () => {
                       ripple={false}
                       className="!overflow-visible hover:bg-transparent hover:cursor-default"
                     >
+                      {/* Product image and name */}
                       <div className="flex w-2/3 lg:w-3/4 flex-row">
                         <Link to={`/product/${item._id}`}>
                           <img
@@ -69,6 +73,7 @@ const CartPage = () => {
                           <Link to={`/product/${item._id}`}>{item.name}</Link>
                         </Typography>
                       </div>
+                      {/* Quantity selector and remove button */}
                       <div className="flex w-1/3 lg:w-1/4 ">
                         <div className="w-3/4 custom-limit-width">
                           <Typography variant={'paragraph'}>
@@ -86,20 +91,19 @@ const CartPage = () => {
                               unmount: { y: 25 },
                             }}
                           >
-                            {/* Loading the quantity of items in stock */}
-                            {item.quantityInStock &&
-                              Array.from(
-                                { length: item.quantityInStock },
-                                (_, index) => (
-                                  <Option
-                                    className=""
-                                    key={index + 1}
-                                    value={(index + 1).toString()}
-                                  >
-                                    {(index + 1).toString()}
-                                  </Option>
-                                )
-                              )}
+                            {/* Loading the quantity of items in stock limiting in 10*/}
+                            {Array.from(
+                              { length: Math.min(item.quantityInStock, 10) },
+                              (_, index) => (
+                                <Option
+                                  className=""
+                                  key={index + 1}
+                                  value={(index + 1).toString()}
+                                >
+                                  {(index + 1).toString()}
+                                </Option>
+                              )
+                            )}
                           </Select>
                         </div>
                         <div className="w-1/4 flex items-center justify-center">
@@ -117,14 +121,17 @@ const CartPage = () => {
                 </List>
               </Card>
             </div>
+            {/* Cart summary */}
             <div className="flex lg:w-1/3 max-h-[280px]">
               <Card className="w-full p-4 border-x-8 border-y-4 shadow-lg">
                 <div className="">
+                  {/* Total number of items */}
                   <Typography variant={'h3'}>
                     {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{' '}
                     items
                   </Typography>
                   <hr />
+                  {/* Prices */}
                   <Typography variant={'paragraph'} className="text-xl p-1">
                     Total $ {cart.itemsPrice}
                   </Typography>
@@ -138,7 +145,7 @@ const CartPage = () => {
                   </Typography>
                   <hr />
                   <Typography variant={'paragraph'} className="text-xl p-1">
-                    Total Price: $ {cart.totalPrice}
+                    Total Price: $ {cart.totalPrice.toFixed(2)}
                   </Typography>
                   <hr />
                 </div>

@@ -14,20 +14,23 @@ connectDB();
 
 const importData = async () => {
   try {
+    // Deleting existing data from collections
     await Order.deleteMany();
     await Product.deleteMany();
     await User.deleteMany();
 
+    // Inserting user data into the database
     const createdUsers = await User.insertMany(users);
 
+    // Extracting admin user ID
     const adminUser = createdUsers[0]._id;
 
-    //will return my object with my user id
+    // Adding admin user ID to each product
     const sampleProducts = products.map((product) => {
       return { ...product, user: adminUser };
     });
 
-    // insert my data to the database
+    // Inserting sample product data into the database
     await Product.insertMany(sampleProducts);
     console.log('Data ready to be used!'.green.inverse);
     process.exit();
