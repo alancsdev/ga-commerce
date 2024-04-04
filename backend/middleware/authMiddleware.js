@@ -11,13 +11,17 @@ const protect = asyncHandler(async (req, res, next) => {
 
   if (token) {
     try {
+      //Decoding the token, getting the properties like the jwt website
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log('decoded in authMiddleware', decoded);
 
+      //Using -password to not get the password from the database
+      // Also adding to the req.user to be used in all the website
       req.user = await User.findById(decoded.userId).select('-password');
 
       next();
     } catch (error) {
-      console.error(error);
+      console.error('authMiddleware error: ', error);
       res.status(401);
       throw new Error('Not authorized, token failed');
     }

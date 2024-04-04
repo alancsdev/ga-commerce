@@ -10,6 +10,7 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
+  //matchPassowrd is a method created inside the userModel
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
 
