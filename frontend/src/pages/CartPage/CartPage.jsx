@@ -28,6 +28,10 @@ const CartPage = () => {
     dispatch(removeFromCart(id));
   };
 
+  const checkoutHandler = () => {
+    navigate('/login?redirect=/shipping');
+  };
+
   return (
     <div className="flex justify-center w-full">
       <div className="w-full mx-4 md:mx-10 bk1:max-w-7xl flex flex-col">
@@ -150,7 +154,7 @@ const CartPage = () => {
                   <hr />
                 </div>
                 <div className="self-center mt-4">
-                  <Button>Proceed To Checkout</Button>
+                  <Button onClick={checkoutHandler}>Proceed To Checkout</Button>
                 </div>
               </Card>
             </div>
