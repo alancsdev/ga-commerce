@@ -20,7 +20,7 @@ main {
   min-height: calc(100vh - 75px - 75px);
 }
 
-.loader-container {
+.custom-container-center {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,7 +32,7 @@ main {
   main {
     min-height: calc(100vh - 58px - 75px);
   }
-  .loader-container {
+  .custom-container-center {
     height: calc(100vh - 58px - 75px - 24px);
   }
 }
@@ -41,7 +41,7 @@ main {
   main {
     min-height: calc(100vh - 58px - 125px);
   }
-  .loader-container {
+  .custom-container-center {
     height: calc(100vh - 58px - 125px - 24px);
   }
 }

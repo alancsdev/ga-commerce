@@ -19,6 +19,10 @@ function Header() {
 
   const [openNav, setOpenNav] = useState(false);
 
+  const handleLinkClick = () => {
+    setOpenNav(false);
+  };
+
   useEffect(() => {
     window.addEventListener(
       'resize',
@@ -35,7 +39,11 @@ function Header() {
         className="flex items-center gap-x-2 p-1 font-medium"
       >
         <FaShoppingCart />
-        <Link to="/cart" className="flex items-center">
+        <Link
+          to="/cart"
+          className="flex items-center"
+          onClick={handleLinkClick}
+        >
           {cartItems.length > 0 ? (
             <Badge
               content={cartItems.reduce(
@@ -58,7 +66,11 @@ function Header() {
         className="flex items-center gap-x-2 p-1 font-medium"
       >
         <FaUser />
-        <Link to="/login" className="flex items-center">
+        <Link
+          to="/login"
+          className="flex items-center"
+          onClick={handleLinkClick}
+        >
           Sign In
         </Link>
       </Typography>
@@ -69,7 +81,11 @@ function Header() {
     <Navbar className="mx-auto rounded-none min-w-full px-4 py-2 lg:px-8 lg:py-4">
       <div className="container min-w-full flex flex-wrap items-center justify-between text-blue-gray-900">
         <div className="w-1/4 flex">
-          <Link to="/" className="mr-4 cursor-pointer font-medium">
+          <Link
+            to="/"
+            className="mr-4 cursor-pointer font-medium"
+            onClick={handleLinkClick}
+          >
             <img className="h-10" src={logo} alt="GA Commerce" />
           </Link>
         </div>

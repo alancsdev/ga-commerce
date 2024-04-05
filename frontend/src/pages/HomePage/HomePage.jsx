@@ -10,7 +10,7 @@ function HomePage() {
   return (
     <>
       {isLoading ? (
-        <div className="loader-container">
+        <div className="custom-container-center">
           <Loader />
         </div>
       ) : error ? (
