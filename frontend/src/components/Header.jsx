@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import {
   Navbar,
   Typography,
@@ -12,11 +14,8 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  Avatar,
 } from '@material-tailwind/react';
-import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import logo from '../assets/ga-logo.png';
-import { Link, useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { removeCredentials } from '../slices/authSlice';
 
