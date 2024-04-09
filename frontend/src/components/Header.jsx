@@ -174,7 +174,7 @@ function Header() {
 
   return (
     <Navbar className="sticky top-0 z-10 mx-auto rounded-none min-w-full px-4 py-2 lg:px-8 lg:py-4 dark:bg-gray-900 dark:border-black/80">
-      <div className="container min-w-full flex flex-wrap items-center justify-between text-blue-gray-900">
+      <div className="container mx-auto max-w-[2600px] flex flex-wrap items-center justify-between text-blue-gray-900">
         <div className="flex">
           <Link
             to="/"
