@@ -21,7 +21,9 @@ const Rating = ({ value, text, className }) => {
   return (
     <div className={`rating flex items-center ${className}`}>
       {renderStars()}
-      <span className="rating-text">{text && `${text} reviews`}</span>
+      <span className="text-base pl-2 dark:text-white">
+        {text && `${text} reviews`}
+      </span>
     </div>
   );
 };

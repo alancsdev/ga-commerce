@@ -34,7 +34,7 @@ const ProductDetailsPage = () => {
       <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl">
         <div className="flex justify-end">
           <Link to="/">
-            <Button>Go Back</Button>
+            <Button className="dark:bg-white dark:text-black">Go Back</Button>
           </Link>
         </div>
         {isLoading ? (
@@ -52,7 +52,9 @@ const ProductDetailsPage = () => {
                 />
               </div>
               <div className="col">
-                <Typography variant="h3">{product.name}</Typography>
+                <Typography variant="h3" className="dark:text-white">
+                  {product.name}
+                </Typography>
 
                 <hr className="my-2 border-t border-gray-300" />
 
@@ -66,7 +68,7 @@ const ProductDetailsPage = () => {
 
                 <Typography
                   variant="paragraph"
-                  className="font-medium text-2xl"
+                  className="font-medium text-2xl dark:text-white"
                 >
                   Price: $ {product.price.toFixed(2)}
                 </Typography>
@@ -75,7 +77,7 @@ const ProductDetailsPage = () => {
 
                 <Typography
                   variant="paragraph"
-                  className="font-normal text-2xl inline-block"
+                  className="font-normal text-2xl inline-block dark:text-white"
                 >
                   Status:
                 </Typography>
@@ -92,7 +94,7 @@ const ProductDetailsPage = () => {
 
                 <Button
                   variant="gradient"
-                  className="flex items-center justify-center gap-3 w-full mt-4"
+                  className="flex items-center justify-center gap-3 w-full mt-4 dark:!bg-none dark:bg-white dark:text-black"
                   disabled={product.quantityInStock === 0}
                   onClick={addToCartHandler}
                 >
@@ -102,7 +104,10 @@ const ProductDetailsPage = () => {
               </div>
             </div>
             <div className="mt-4">
-              <Typography variant="paragraph" className="font-normal text-xl">
+              <Typography
+                variant="paragraph"
+                className="font-normal text-xl dark:text-white"
+              >
                 {product.description}
               </Typography>
             </div>

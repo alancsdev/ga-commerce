@@ -50,13 +50,7 @@ main {
   color: #f8e825;
 }
 
-.rating-text {
-  font-size: 1rem;
-  font-weight: 600;
-  padding-left: 0.5rem;
-}
-
-.product-title {
+/* .product-title {
   height: 2.5em;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -73,7 +67,7 @@ main {
 table td,
 table th {
   text-align: center;
-}
+} */
 
 .review {
   margin-top: 30px;
