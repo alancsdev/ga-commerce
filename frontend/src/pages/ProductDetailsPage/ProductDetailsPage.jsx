@@ -61,7 +61,7 @@ const ProductDetailsPage = () => {
                 <Rating
                   value={product.rating}
                   text={product.numReviews}
-                  className={'text-3xl'}
+                  className={'text-2xl'}
                 />
 
                 <hr className="my-2 border-t border-gray-300" />
@@ -103,14 +103,15 @@ const ProductDetailsPage = () => {
                 </Button>
               </div>
             </div>
-            <div className="mt-4">
-              <Typography
-                variant="paragraph"
-                className="font-normal text-xl dark:text-white"
-              >
-                {product.description}
-              </Typography>
-            </div>
+            <hr className="my-4 border-t border-gray-300" />
+
+            <Typography
+              variant="paragraph"
+              className="font-normal text-xl dark:text-white"
+            >
+              Description: <br />
+              {product.description}
+            </Typography>
           </>
         )}
       </div>

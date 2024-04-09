@@ -99,7 +99,7 @@ function Header() {
       >
         <FaUser />
         {userInfo ? (
-          <Menu>
+          <Menu allowHover>
             <MenuHandler>
               <Typography
                 variant="small"
@@ -218,13 +218,13 @@ function Header() {
                 }
               />
             </div>
-            <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
             <Button
               size="md"
               className="rounded-lg dark:bg-white dark:text-black"
             >
               Search
             </Button>
+            <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
           </div>
           <div className="hidden lg:block">{navList}</div>
         </div>
@@ -308,7 +308,10 @@ function Header() {
                 </svg>
               </div>
             </div>
-            <Button size="md" className="mt-1 rounded-lg sm:mt-0">
+            <Button
+              size="md"
+              className="mt-1 rounded-lg sm:mt-0 dark:bg-white dark:text-black"
+            >
               Search
             </Button>
           </div>

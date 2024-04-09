@@ -5,9 +5,11 @@ const ThemeToggle = ({ darkMode, setDarkMode }) => {
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
       localStorage.theme = 'dark';
     } else {
       document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
       localStorage.theme = 'light';
     }
   }, [darkMode]);

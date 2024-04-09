@@ -37,7 +37,7 @@ const CartPage = () => {
       <div className="w-full mx-4 md:mx-10 bk1:max-w-7xl flex flex-col">
         <Typography
           variant={'h1'}
-          className="self-center text-2xl md:text-3xl lg:text-4xl mb-2"
+          className="self-center text-2xl md:text-3xl lg:text-4xl mb-2 dark:text-white"
         >
           Welcome to your cart!
         </Typography>
@@ -55,7 +55,7 @@ const CartPage = () => {
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Cart items */}
             <div className="flex w-full lg:w-2/3">
-              <Card className="w-full border-x-8 border-y-4 shadow-lg">
+              <Card className="w-full border-4 shadow-lg dark:bg-gray-600 dark:border-gray-700">
                 <List className="">
                   {cartItems.map((item) => (
                     <ListItem
@@ -73,19 +73,24 @@ const CartPage = () => {
                           />
                         </Link>
 
-                        <Typography variant={'paragraph'} className="pl-4">
+                        <Typography
+                          variant={'paragraph'}
+                          className="pl-4 text-black font-bold dark:text-white"
+                        >
                           <Link to={`/product/${item._id}`}>{item.name}</Link>
                         </Typography>
                       </div>
                       {/* Quantity selector and remove button */}
-                      <div className="flex w-1/3 lg:w-1/4 ">
-                        <div className="w-3/4 custom-limit-width">
-                          <Typography variant={'paragraph'}>
-                            $ {item.price}
+                      <div className="h-full flex w-1/3 lg:w-1/4 ">
+                        <div className="w-3/4 text-black custom-limit-width">
+                          <Typography
+                            variant={'paragraph'}
+                            className="dark:text-white h-1/2"
+                          >
+                            $ {item.price.toFixed(2)}
                           </Typography>
-
                           <Select
-                            className="text-xl"
+                            className="text-xl dark:text-white dark:border-white light:my-custom-style dark:my-custom-style"
                             variant="standard"
                             label="Select quantity"
                             value={item.quantity.toString()}
@@ -127,34 +132,54 @@ const CartPage = () => {
             </div>
             {/* Cart summary */}
             <div className="flex lg:w-1/3 max-h-[280px]">
-              <Card className="w-full p-4 border-x-8 border-y-4 shadow-lg">
+              <Card className="w-full p-4 border-4 shadow-lg dark:bg-gray-600 dark:border-gray-700">
                 <div className="">
                   {/* Total number of items */}
-                  <Typography variant={'h3'}>
+                  <Typography
+                    variant={'h3'}
+                    className="text-black dark:text-white"
+                  >
                     {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{' '}
                     items
                   </Typography>
                   <hr />
                   {/* Prices */}
-                  <Typography variant={'paragraph'} className="text-xl p-1">
+                  <Typography
+                    variant={'paragraph'}
+                    className="text-xl p-1 text-black dark:text-white"
+                  >
                     Total $ {cart.itemsPrice}
                   </Typography>
                   <hr />
-                  <Typography variant={'paragraph'} className="text-xl p-1">
+                  <Typography
+                    variant={'paragraph'}
+                    className="text-xl p-1 text-black dark:text-white"
+                  >
                     Shipping Price: $ {cart.shippingPrice}
                   </Typography>
                   <hr />
-                  <Typography variant={'paragraph'} className="text-xl p-1">
+                  <Typography
+                    variant={'paragraph'}
+                    className="text-xl p-1 text-black dark:text-white"
+                  >
                     Tax Price: $ {cart.taxPrice.toFixed(2)}
                   </Typography>
                   <hr />
-                  <Typography variant={'paragraph'} className="text-xl p-1">
+                  <Typography
+                    variant={'paragraph'}
+                    className="text-xl p-1 text-black dark:text-white"
+                  >
                     Total Price: $ {cart.totalPrice.toFixed(2)}
                   </Typography>
                   <hr />
                 </div>
                 <div className="self-center mt-4">
-                  <Button onClick={checkoutHandler}>Proceed To Checkout</Button>
+                  <Button
+                    onClick={checkoutHandler}
+                    className="dark:bg-white dark:text-black"
+                  >
+                    Proceed To Checkout
+                  </Button>
                 </div>
               </Card>
             </div>

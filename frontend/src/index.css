@@ -50,25 +50,6 @@ main {
   color: #f8e825;
 }
 
-/* .product-title {
-  height: 2.5em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.product-description {
-  height: 5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-table td,
-table th {
-  text-align: center;
-} */
-
 .review {
   margin-top: 30px;
 }
@@ -120,6 +101,18 @@ table th {
   min-width: 80px;
 }
 
+.custom-limit-width > div > button > div {
+  color: white;
+}
+
 .custom-margin-message > div:nth-child(2) {
   margin-right: 0px;
+}
+
+.dark\:my-custom-style:where(.dark, .dark *) + label {
+  color: white;
+}
+
+.light\:my-custom-style:where(.light, .light *) + label {
+  color: black;
 }
