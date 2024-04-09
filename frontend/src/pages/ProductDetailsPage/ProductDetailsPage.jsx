@@ -6,6 +6,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { Button, Typography } from '@material-tailwind/react';
 import Rating from '../../components/Rating';
 import Message from '../../components/Message';
+import Loader from '../../components/Loader';
 import { useGetProductDetailsQuery } from '../../slices/productsApiSlice';
 import { addToCart } from '../../slices/cartSlice';
 
@@ -30,15 +31,21 @@ const ProductDetailsPage = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl">
-        <div className="flex justify-end">
+    <div className="flex justify-center h-full custom-container-center ">
+      <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl h-full">
+        <div
+          className={`flex h-10 ${
+            isLoading ? 'justify-center' : 'justify-end'
+          }`}
+        >
           <Link to="/">
             <Button className="dark:bg-white dark:text-black">Go Back</Button>
           </Link>
         </div>
         {isLoading ? (
-          <h2>Loading...</h2>
+          <div className="h-full -mt-10 flex items-center">
+            <Loader />
+          </div>
         ) : error ? (
           <Message>{error?.data?.message || error.error}</Message>
         ) : (
