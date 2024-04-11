@@ -4,7 +4,7 @@ import { updateCart } from '../utils/cartUtils';
 // Get initial cart state from localStorage, or set it to an empty array if not found
 const initialState = localStorage.getItem('cart')
   ? JSON.parse(localStorage.getItem('cart'))
-  : { cartItems: [] };
+  : { cartItems: [], shippingAddress: {}, paymentMethod: 'PayPal' };
 
 // Create a slice for managing the cart state
 const cartSlice = createSlice({
@@ -31,13 +31,20 @@ const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       // Filter out the item with the provided ID
-      state.cartItems = state.cartItems.filter((x) => x._id !== action.payload);
+      state.cartItems = state.cartItems.filter(
+        (item) => item._id !== action.payload
+      );
 
+      return updateCart(state);
+    },
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload.formData;
       return updateCart(state);
     },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, saveShippingAddress } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

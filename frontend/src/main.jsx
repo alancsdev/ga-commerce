@@ -16,6 +16,7 @@ import ProductDetailsPage from './pages/ProductDetailsPage/ProductDetailsPage.js
 import CartPage from './pages/CartPage/CartPage.jsx';
 import LoginPage from './pages/LoginPage/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage/RegisterPage.jsx';
+import ShippingPage from './pages/ShippingPage/ShippingPage.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/product/:id" element={<ProductDetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/shipping" element={<ShippingPage />} />
     </Route>
   )
 );
