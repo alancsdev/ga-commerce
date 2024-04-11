@@ -82,10 +82,10 @@ const ShippingPage = () => {
   };
 
   return (
-    <div className="flex justify-center h-full custom-container-center ">
+    <div className="flex justify-center h-full custom-container-center">
       <div className="mx-4 md:mx-10 xl:mx-10 w-full 2xl:max-w-7xl">
         {isLoadingUserInfo ? (
-          <div className="h-full -mt-10 flex items-center">
+          <div className="h-full -mt-10 flex justify-center">
             <Loader />
           </div>
         ) : errorUserInfo ? (
