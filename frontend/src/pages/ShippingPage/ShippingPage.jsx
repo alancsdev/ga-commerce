@@ -10,6 +10,7 @@ import {
 import { saveShippingAddress } from '../../slices/cartSlice';
 import Loader from '../../components/Loader';
 import { toast } from 'react-toastify';
+import CheckoutSteps from '../../components/CheckoutSteps';
 
 const ShippingPage = () => {
   // Getting the userInfo of the store
@@ -82,7 +83,7 @@ const ShippingPage = () => {
 
   return (
     <div className="flex justify-center h-full custom-container-center ">
-      <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl">
+      <div className="mx-4 md:mx-10 xl:mx-10 w-full 2xl:max-w-7xl">
         {isLoadingUserInfo ? (
           <div className="h-full -mt-10 flex items-center">
             <Loader />
@@ -92,82 +93,86 @@ const ShippingPage = () => {
             {errorUserInfo?.data?.message || errorUserInfo.error}
           </Message>
         ) : (
-          <Card className="p-8">
-            <Typography variant="h4" color="blue-gray">
-              Shipping Address
-            </Typography>
+          <>
+            <Card className="p-8 flex justify-center items-center">
+              <CheckoutSteps step={0} />
+              <Typography
+                variant="h4"
+                color="blue-gray"
+                className="text-center"
+              >
+                Shipping Address
+              </Typography>
 
-            <form
-              onSubmit={submitHandler}
-              className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-            >
-              <div className="mb-1 flex flex-col gap-3">
-                <Typography variant="h6" color="blue-gray" className="-mb-3">
-                  Address
-                </Typography>
-                <Input
-                  size="lg"
-                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: 'before:content-none after:content-none',
-                  }}
-                  value={formData.address}
-                  onChange={(e) =>
-                    setFormData({ ...formData, address: e.target.value })
-                  }
-                />
-                <Typography variant="h6" color="blue-gray" className="-mb-3">
-                  City
-                </Typography>
-                <Input
-                  size="lg"
-                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: 'before:content-none after:content-none',
-                  }}
-                  value={formData.city}
-                  onChange={(e) =>
-                    setFormData({ ...formData, city: e.target.value })
-                  }
-                />
-                <Typography variant="h6" color="blue-gray" className="-mb-3">
-                  Postal Code
-                </Typography>
-                <Input
-                  size="lg"
-                  pattern="[0-9]*"
-                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: 'before:content-none after:content-none',
-                  }}
-                  value={formData.postalCode}
-                  onChange={(e) =>
-                    setFormData({ ...formData, postalCode: e.target.value })
-                  }
-                />
-                <Typography variant="h6" color="blue-gray" className="-mb-3">
-                  Country
-                </Typography>
-                <Input
-                  size="lg"
-                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: 'before:content-none after:content-none',
-                  }}
-                  value={formData.country}
-                  onChange={(e) =>
-                    setFormData({ ...formData, country: e.target.value })
-                  }
-                />{' '}
-                <Button className="mt-6" fullWidth onClick={submitHandler}>
-                  Continue
-                </Button>
+              <form onSubmit={submitHandler} className="mt-8 mb-2 w-full">
+                <div className="mb-1 flex flex-col gap-3">
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Address
+                  </Typography>
+                  <Input
+                    size="lg"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: 'before:content-none after:content-none',
+                    }}
+                    value={formData.address}
+                    onChange={(e) =>
+                      setFormData({ ...formData, address: e.target.value })
+                    }
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    City
+                  </Typography>
+                  <Input
+                    size="lg"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: 'before:content-none after:content-none',
+                    }}
+                    value={formData.city}
+                    onChange={(e) =>
+                      setFormData({ ...formData, city: e.target.value })
+                    }
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Postal Code
+                  </Typography>
+                  <Input
+                    size="lg"
+                    pattern="[0-9]*"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: 'before:content-none after:content-none',
+                    }}
+                    value={formData.postalCode}
+                    onChange={(e) =>
+                      setFormData({ ...formData, postalCode: e.target.value })
+                    }
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Country
+                  </Typography>
+                  <Input
+                    size="lg"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: 'before:content-none after:content-none',
+                    }}
+                    value={formData.country}
+                    onChange={(e) =>
+                      setFormData({ ...formData, country: e.target.value })
+                    }
+                  />{' '}
+                  <Button className="mt-6" fullWidth onClick={submitHandler}>
+                    Continue
+                  </Button>
+                </div>
+              </form>
+              <div className="self-center">
+                {isLoadingUpdateProfile && <Loader size={10} />}
               </div>
-            </form>
-            <div className="self-center">
-              {isLoadingUpdateProfile && <Loader size={10} />}
-            </div>
-          </Card>
+            </Card>
+          </>
         )}
       </div>
     </div>
