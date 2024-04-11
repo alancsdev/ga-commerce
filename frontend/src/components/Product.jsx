@@ -10,7 +10,7 @@ import Rating from './Rating';
 
 function Product({ product }) {
   return (
-    <Card className="w-72 border-x-2 border-t-2 border-b-4 shadow-lg dark:bg-gray-600 dark:border-gray-700">
+    <Card className="w-72 border-x-2 border-t-2 border-b-4 shadow-lg dark:bg-gray-700 dark:border-gray-800">
       {/* Card header with product image */}
       <CardHeader shadow={false} floated={false} className="h-52">
         <Link to={`/product/${product._id}`}>

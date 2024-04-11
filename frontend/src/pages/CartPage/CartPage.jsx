@@ -55,7 +55,7 @@ const CartPage = () => {
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Cart items */}
             <div className="flex w-full lg:w-2/3">
-              <Card className="w-full border-4 shadow-lg dark:bg-gray-600 dark:border-gray-700">
+              <Card className="w-full border-4 shadow-lg dark:bg-gray-700 dark:border-gray-800">
                 <List className="">
                   {cartItems.map((item) => (
                     <ListItem
@@ -132,7 +132,7 @@ const CartPage = () => {
             </div>
             {/* Cart summary */}
             <div className="flex lg:w-1/3 max-h-[280px]">
-              <Card className="w-full p-4 border-4 shadow-lg dark:bg-gray-600 dark:border-gray-700">
+              <Card className="w-full p-4 border-4 shadow-lg dark:bg-gray-700 dark:border-gray-800">
                 <div className="">
                   {/* Total number of items */}
                   <Typography
