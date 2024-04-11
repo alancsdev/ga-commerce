@@ -1,7 +1,10 @@
 import { Spinner } from '@material-tailwind/react';
 
-const Loader = () => {
-  return <Spinner className="h-44 w-44" color="red" />;
+const Loader = ({ size }) => {
+  let sizeLoader = 44;
+  if (size) sizeLoader = size;
+
+  return <Spinner className={`h-${sizeLoader} w-${sizeLoader}`} color="red" />;
 };
 
 export default Loader;

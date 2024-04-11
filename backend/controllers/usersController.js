@@ -80,6 +80,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      shippingAddress: user.shippingAddress,
     });
   } else {
     res.status(404);
@@ -96,6 +97,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
+    user.shippingAddress = {
+      address: req.body.address ?? user.shippingAddress?.address,
+      city: req.body.city ?? user.shippingAddress?.city,
+      postalCode: req.body.postalCode ?? user.shippingAddress?.postalCode,
+      country: req.body.country ?? user.shippingAddress?.country,
+    };
 
     if (req.body.password) {
       user.password = req.body.password;
@@ -108,6 +115,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
+      shippingAddress: updatedUser.shippingAddress,
     });
   } else {
     res.status(404);
@@ -165,6 +173,12 @@ const updateUser = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.isAdmin = Boolean(req.body.isAdmin);
+    user.shippingAddress = {
+      address: req.body.address ?? user.shippingAddress?.address,
+      city: req.body.city ?? user.shippingAddress?.city,
+      postalCode: req.body.postalCode ?? user.shippingAddress?.postalCode,
+      country: req.body.country ?? user.shippingAddress?.country,
+    };
 
     const updatedUser = await user.save();
 
@@ -173,6 +187,7 @@ const updateUser = asyncHandler(async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
+      shippingAddress: updatedUser.shippingAddress,
     });
   } else {
     res.status(404);

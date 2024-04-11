@@ -67,7 +67,7 @@ const CartPage = () => {
                       <div className="flex w-2/3 lg:w-3/4 flex-row">
                         <Link to={`/product/${item._id}`}>
                           <img
-                            className="w-24 rounded-xl"
+                            className="max-w-24 rounded-xl"
                             src={item.image}
                             alt={item.name}
                           />

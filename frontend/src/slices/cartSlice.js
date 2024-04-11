@@ -38,7 +38,7 @@ const cartSlice = createSlice({
       return updateCart(state);
     },
     saveShippingAddress: (state, action) => {
-      state.shippingAddress = action.payload.formData;
+      state.shippingAddress = action.payload;
       return updateCart(state);
     },
   },
