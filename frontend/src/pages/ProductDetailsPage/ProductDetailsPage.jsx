@@ -46,7 +46,9 @@ const ProductDetailsPage = () => {
           </div>
         </div>
       ) : error ? (
-        <Message>{error?.data?.message || error.error}</Message>
+        <Message variant={'error'}>
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <div className="flex justify-center h-full">
           <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl h-full">

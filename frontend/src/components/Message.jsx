@@ -14,7 +14,7 @@ const Message = ({ variant, children }) => {
     <Alert
       color={color}
       icon={icon}
-      className="items-center custom-margin-message"
+      className="items-center custom-margin-message "
     >
       {children}
     </Alert>
