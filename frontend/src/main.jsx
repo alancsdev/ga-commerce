@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { ThemeProvider } from '@material-tailwind/react';
 import {
   createBrowserRouter,
@@ -46,7 +47,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider>
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <PayPalScriptProvider deferLoading={true}>
+          <RouterProvider router={router} />
+        </PayPalScriptProvider>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>

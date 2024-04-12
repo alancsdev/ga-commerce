@@ -1,20 +1,21 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
-import { useGetOrderDetailsQuery } from '../../slices/ordersApiSlice';
 import {
-  Typography,
-  Button,
-  List,
-  ListItem,
-  Card,
-  Option,
-  Select,
-} from '@material-tailwind/react';
+  useGetOrderDetailsQuery,
+  usePayOrderMutation,
+  useGetPayPalClientIdQuery,
+} from '../../slices/ordersApiSlice';
+import { Typography, List, ListItem, Card } from '@material-tailwind/react';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { toast } from 'react-toastify';
 
 const OrderPage = () => {
   const { id: orderId } = useParams();
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const {
     data: order,
@@ -23,7 +24,45 @@ const OrderPage = () => {
     error,
   } = useGetOrderDetailsQuery(orderId);
 
-  console.log(order);
+  const {
+    data: paypal,
+    isLoading: isLoadingGetPayPalClientId,
+    error: errorGetPayPalClientId,
+  } = useGetPayPalClientIdQuery();
+
+  const [payOrder, { isLoading: isLoadingPayOrder }] = usePayOrderMutation();
+
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  useEffect(() => {
+    if (
+      !errorGetPayPalClientId &&
+      !isLoadingGetPayPalClientId &&
+      paypal.clientId
+    ) {
+      const loadPaypalScript = async () => {
+        paypalDispatch({
+          type: 'resetOptions',
+          value: {
+            'client-id': paypal.clientId,
+            currency: 'USD',
+          },
+        });
+        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+      };
+      if (order && !order.isPaid) {
+        if (!window.paypal) {
+          loadPaypalScript();
+        }
+      }
+    }
+  }, [
+    errorGetPayPalClientId,
+    isLoadingGetPayPalClientId,
+    order,
+    paypal,
+    paypalDispatch,
+  ]);
 
   return (
     <>
@@ -146,16 +185,13 @@ const OrderPage = () => {
                             Country: {order.shippingAddress.country}
                           </Typography>
                           <hr />
-                          <Typography
-                            variant={'paragraph'}
-                            className="text-xl p-1 dark:text-white"
-                          >
+                          <div className="mt-3">
                             {order.isDelivered ? (
                               <Message variant={'info'}>Delivered</Message>
                             ) : (
                               <Message variant={'error'}>Not Delivered</Message>
                             )}
-                          </Typography>
+                          </div>
                         </div>
                       </Card>
                       <Card className="w-full p-4 border-4 shadow-lg dark:bg-gray-700 dark:border-gray-800">
@@ -201,16 +237,13 @@ const OrderPage = () => {
                             Total Price: $ {order.totalPrice}
                           </Typography>
                           <hr />
-                          <Typography
-                            variant={'paragraph'}
-                            className="text-xl p-1 dark:text-white"
-                          >
+                          <div className="mt-3">
                             {order.isPaid ? (
                               <Message variant={'info'}>Paid</Message>
                             ) : (
                               <Message variant={'error'}>Not Paid</Message>
                             )}
-                          </Typography>
+                          </div>
                         </div>
                       </Card>
                     </div>
