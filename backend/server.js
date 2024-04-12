@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 const port = process.env.PORT || 3000;
 import productRouter from './routes/productsRoutes.js';
 import userRouter from './routes/usersRoutes.js';
+import orderRouter from './routes/ordersRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
 
 app.use(notFound);
 app.use(errorHandler);
