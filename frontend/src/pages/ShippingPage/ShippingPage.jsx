@@ -94,24 +94,28 @@ const ShippingPage = () => {
           </Message>
         ) : (
           <>
-            <Card className="p-8 flex justify-center items-center">
+            <Card className="p-8 flex items-center h-[650px] dark:bg-gray-700">
               <CheckoutSteps step={0} />
               <Typography
                 variant="h4"
                 color="blue-gray"
-                className="text-center"
+                className="text-center dark:text-white"
               >
                 Shipping Address
               </Typography>
 
               <form onSubmit={submitHandler} className="mt-8 mb-2 w-full">
                 <div className="mb-1 flex flex-col gap-3">
-                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                  <Typography
+                    variant="h6"
+                    color="blue-gray"
+                    className="-mb-3 dark:text-white"
+                  >
                     Address
                   </Typography>
                   <Input
                     size="lg"
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 dark:text-white"
                     labelProps={{
                       className: 'before:content-none after:content-none',
                     }}
@@ -120,12 +124,16 @@ const ShippingPage = () => {
                       setFormData({ ...formData, address: e.target.value })
                     }
                   />
-                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                  <Typography
+                    variant="h6"
+                    color="blue-gray"
+                    className="-mb-3 dark:text-white"
+                  >
                     City
                   </Typography>
                   <Input
                     size="lg"
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 dark:text-white"
                     labelProps={{
                       className: 'before:content-none after:content-none',
                     }}
@@ -134,13 +142,17 @@ const ShippingPage = () => {
                       setFormData({ ...formData, city: e.target.value })
                     }
                   />
-                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                  <Typography
+                    variant="h6"
+                    color="blue-gray"
+                    className="-mb-3 dark:text-white"
+                  >
                     Postal Code
                   </Typography>
                   <Input
                     size="lg"
                     pattern="[0-9]*"
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 dark:text-white"
                     labelProps={{
                       className: 'before:content-none after:content-none',
                     }}
@@ -149,12 +161,16 @@ const ShippingPage = () => {
                       setFormData({ ...formData, postalCode: e.target.value })
                     }
                   />
-                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                  <Typography
+                    variant="h6"
+                    color="blue-gray"
+                    className="-mb-3 dark:text-white"
+                  >
                     Country
                   </Typography>
                   <Input
                     size="lg"
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 dark:text-white"
                     labelProps={{
                       className: 'before:content-none after:content-none',
                     }}
@@ -169,7 +185,7 @@ const ShippingPage = () => {
                 </div>
               </form>
               <div className="self-center">
-                {isLoadingUpdateProfile && <Loader size={10} />}
+                {isLoadingUpdateProfile && <Loader size={40} />}
               </div>
             </Card>
           </>

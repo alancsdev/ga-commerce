@@ -174,10 +174,7 @@ const CartPage = () => {
                   <hr />
                 </div>
                 <div className="self-center mt-4">
-                  <Button
-                    onClick={checkoutHandler}
-                    className="dark:bg-white dark:text-black"
-                  >
+                  <Button onClick={checkoutHandler} className="">
                     Proceed To Checkout
                   </Button>
                 </div>

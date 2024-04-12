@@ -35,19 +35,13 @@ const ProductDetailsPage = () => {
       {isLoading ? (
         <div className="flex justify-center h-full custom-container-center">
           <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl h-full">
-            <div
-              className={`flex h-10 ${
-                isLoading ? 'justify-center' : 'justify-end'
-              }`}
-            >
+            <div className="flex h-10 justify-center">
               <Link to="/">
-                <Button className="dark:bg-white dark:text-black">
-                  Go Back
-                </Button>
+                <Button className="">Go Back</Button>
               </Link>
             </div>
-            <div className="h-full -mt-10 flex items-center">
-              <Loader />
+            <div className="h-full -mt-10 flex items-center justify-center">
+              <Loader size={176} />
             </div>
           </div>
         </div>
@@ -56,15 +50,9 @@ const ProductDetailsPage = () => {
       ) : (
         <div className="flex justify-center h-full">
           <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl h-full">
-            <div
-              className={`flex h-10 ${
-                isLoading ? 'justify-center' : 'justify-end'
-              }`}
-            >
+            <div className="flex h-10 justify-end">
               <Link to="/">
-                <Button className="dark:bg-white dark:text-black">
-                  Go Back
-                </Button>
+                <Button className="">Go Back</Button>
               </Link>
             </div>
             <div className="min-h-56">
@@ -119,7 +107,7 @@ const ProductDetailsPage = () => {
 
                   <Button
                     variant="gradient"
-                    className="flex items-center justify-center gap-3 w-full mt-4 dark:!bg-none dark:bg-white dark:text-black"
+                    className="flex items-center justify-center gap-3 w-full mt-4 dark:!bg-none dark:bg-black dark:text-white"
                     disabled={product.quantityInStock === 0}
                     onClick={addToCartHandler}
                   >
