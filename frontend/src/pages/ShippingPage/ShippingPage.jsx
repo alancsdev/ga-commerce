@@ -60,10 +60,10 @@ const ShippingPage = () => {
       return;
     }
 
-    if (!/^\d+$/.test(formData.postalCode)) {
-      toast.error('The postal code must contain only numbers');
-      return;
-    }
+    // if (!/^\d+$/.test(formData.postalCode)) {
+    //   toast.error('The postal code must contain only numbers');
+    //   return;
+    // }
 
     try {
       const { address, city, postalCode, country } = formData;
