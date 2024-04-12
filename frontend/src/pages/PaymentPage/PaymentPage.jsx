@@ -46,7 +46,7 @@ const PaymentPage = () => {
   return (
     <div className="flex justify-center h-full custom-container-center">
       <div className="mx-4 md:mx-10 xl:mx-10 w-full 2xl:max-w-7xl">
-        <Card className="p-8 flex items-center h-[650px] dark:bg-gray-700">
+        <Card className="p-8 border-x-2 border-t-2 border-b-4 shadow-lg flex items-center h-[650px] dark:bg-gray-700 dark:border-gray-800">
           <CheckoutSteps step={1} />
           <Typography
             variant="h4"
@@ -78,6 +78,7 @@ const PaymentPage = () => {
                 </Typography>
               }
             />
+            <hr />
             <Radio
               name="paymentMethod"
               value="CreditCard"
@@ -95,7 +96,8 @@ const PaymentPage = () => {
                   Credit Card
                 </Typography>
               }
-            />
+            />{' '}
+            <hr />
             <Radio
               name="paymentMethod"
               value="DebitCard"
@@ -113,7 +115,8 @@ const PaymentPage = () => {
                   Debit Card
                 </Typography>
               }
-            />
+            />{' '}
+            <hr />
             <Radio
               name="paymentMethod"
               value="ApplePay"
@@ -131,7 +134,8 @@ const PaymentPage = () => {
                   Apple Pay
                 </Typography>
               }
-            />
+            />{' '}
+            <hr />
             <Button type="submit" fullWidth className="">
               Continue
             </Button>

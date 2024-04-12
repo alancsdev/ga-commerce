@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Card, Button, Input, Typography } from '@material-tailwind/react';
+import CheckoutSteps from '../../components/CheckoutSteps';
 import Message from '../../components/Message';
+import Loader from '../../components/Loader';
+import { Card, Button, Input, Typography } from '@material-tailwind/react';
+import { toast } from 'react-toastify';
 import {
   useGetProfileQuery,
   useUpdateProfileMutation,
 } from '../../slices/usersApiSlice';
 import { saveShippingAddress } from '../../slices/cartSlice';
-import Loader from '../../components/Loader';
-import { toast } from 'react-toastify';
-import CheckoutSteps from '../../components/CheckoutSteps';
 
 const ShippingPage = () => {
   // Getting the userInfo of the store
@@ -86,7 +86,7 @@ const ShippingPage = () => {
       <div className="mx-4 md:mx-10 xl:mx-10 w-full 2xl:max-w-7xl">
         {isLoadingUserInfo ? (
           <div className="h-full -mt-10 flex justify-center">
-            <Loader />
+            <Loader size={176} />
           </div>
         ) : errorUserInfo ? (
           <Message>
@@ -94,7 +94,7 @@ const ShippingPage = () => {
           </Message>
         ) : (
           <>
-            <Card className="p-8 flex items-center h-[650px] dark:bg-gray-700">
+            <Card className="p-8 border-x-2 border-t-2 border-b-4 shadow-lg flex items-center min-h-[650px] dark:bg-gray-700 dark:border-gray-800">
               <CheckoutSteps step={0} />
               <Typography
                 variant="h4"

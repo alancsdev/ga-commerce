@@ -28,12 +28,19 @@ main {
   height: calc(100vh - 74px - 75px - 24px);
 }
 
+.custom-container-center-placeorder {
+  min-height: calc(100vh - 74px - 75px - 24px);
+}
+
 @media (max-width: 959px) {
   main {
     min-height: calc(100vh - 58px - 75px);
   }
   .custom-container-center {
     height: calc(100vh - 58px - 75px - 24px);
+  }
+  .custom-container-center-placeorder {
+    min-height: calc(100vh - 58px - 125px - 24px);
   }
 }
 
@@ -43,6 +50,10 @@ main {
   }
   .custom-container-center {
     height: calc(100vh - 58px - 125px - 24px);
+  }
+
+  .custom-container-center-placeorder {
+    min-height: calc(100vh - 58px - 125px - 24px);
   }
 }
 
@@ -115,4 +126,8 @@ main {
 
 .light\:my-custom-style:where(.light, .light *) + label {
   color: black;
+}
+
+.custom-height-orderpage {
+  height: calc(100vh - 120px);
 }

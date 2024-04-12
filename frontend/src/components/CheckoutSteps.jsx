@@ -1,16 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Stepper, Step, Typography } from '@material-tailwind/react';
-import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { MdLocalShipping, MdPayment, MdShoppingCart } from 'react-icons/md';
 
 const CheckoutSteps = ({ step }) => {
   const [activeStep, setActiveStep] = useState(0);
-  const [isLastStep, setIsLastStep] = useState(false);
-  const [isFirstStep, setIsFirstStep] = useState(false);
-
-  const handleNext = () =>
-    !isLastStep && setActiveStep((prevStep) => prevStep + 1);
-  const handlePrev = () =>
-    !isFirstStep && setActiveStep((prevStep) => prevStep - 1);
 
   useEffect(() => {
     if (step) setActiveStep(step);
@@ -18,17 +11,17 @@ const CheckoutSteps = ({ step }) => {
 
   const steps = [
     {
-      icon: <FaUser className="h-5 w-5" />,
+      icon: <MdLocalShipping className="h-5 w-5" />,
       title: 'Step 1',
       description: 'Address',
     },
     {
-      icon: <FaUser className="h-5 w-5" />,
+      icon: <MdPayment className="h-5 w-5" />,
       title: 'Step 2',
       description: 'Payment',
     },
     {
-      icon: <FaUser className="h-5 w-5" />,
+      icon: <MdShoppingCart className="h-5 w-5" />,
       title: 'Step 3',
       description: 'Checkout',
     },
@@ -36,18 +29,14 @@ const CheckoutSteps = ({ step }) => {
 
   return (
     <div className="w-full px-5 md:px-5 lg:px-10 pb-20">
-      <Stepper
-        activeStep={activeStep}
-        isLastStep={(value) => setIsLastStep(value)}
-        isFirstStep={(value) => setIsFirstStep(value)}
-      >
+      <Stepper activeStep={activeStep}>
         {steps.map((step, index) => (
           <Step key={index}>
             {step.icon}
             <div className="absolute -bottom-[4.5rem] w-max text-center">
               <Typography
                 variant="h6"
-                color={activeStep === index ? 'blue-gray' : 'gray dark:white'}
+                color={activeStep === index ? 'blue-gray' : 'gray'}
                 className="dark:text-white"
               >
                 {step.title}
