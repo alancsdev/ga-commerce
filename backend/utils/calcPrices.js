@@ -6,7 +6,7 @@ export function calcPrices(orderItems) {
   // Calculate the items price in whole number (pennies) to avoid issues with
   // floating point number calculations
   const itemsPrice = orderItems.reduce(
-    (acc, item) => acc + (item.price * 100 * item.qty) / 100,
+    (acc, item) => acc + (item.price * 100 * item.quantity) / 100,
     0
   );
 

@@ -162,14 +162,14 @@ const CartPage = () => {
                     variant={'paragraph'}
                     className="text-xl p-1 text-black dark:text-white"
                   >
-                    Tax Price: $ {cart.taxPrice.toFixed(2)}
+                    Tax Price: $ {cart.taxPrice}
                   </Typography>
                   <hr />
                   <Typography
                     variant={'paragraph'}
                     className="text-xl p-1 text-black dark:text-white"
                   >
-                    Total Price: $ {cart.totalPrice.toFixed(2)}
+                    Total Price: $ {cart.totalPrice}
                   </Typography>
                   <hr />
                 </div>

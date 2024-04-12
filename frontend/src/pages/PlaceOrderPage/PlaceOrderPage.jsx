@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CheckoutSteps from '../../components/CheckoutSteps';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
@@ -17,6 +17,8 @@ import { clearCartItems } from '../../slices/cartSlice';
 
 const PlaceOrderPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart);
 
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
@@ -29,7 +31,25 @@ const PlaceOrderPage = () => {
     }
   }, [cart.paymentMethod, cart.shippingAddress, navigate]);
 
-  const placeOrderHandler = async () => {};
+  const placeOrderHandler = async () => {
+    try {
+      //Unwrap is a redux toolkit function, if don't use unwrap the access will be data:{ object }
+      const res = await createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.ItemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      }).unwrap();
+      dispatch(clearCartItems());
+      navigate(`/orders/${res._id}`);
+    } catch (error) {
+      toast.error(error);
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex w-full custom-container-center-placeorder justify-center items-center">
@@ -62,9 +82,9 @@ const PlaceOrderPage = () => {
                     {/* Cart items */}
                     <div className="flex w-full lg:w-2/3">
                       <Card className="w-full border-4 shadow-lg dark:bg-gray-700 dark:border-gray-800">
-                        <List className="">
+                        <List>
                           {cart.cartItems.map((item, index) => (
-                            <>
+                            <Fragment key={item._id}>
                               <ListItem
                                 key={item._id}
                                 ripple={false}
@@ -106,7 +126,7 @@ const PlaceOrderPage = () => {
                               {index !== cart.cartItems.length - 1 && (
                                 <hr className="mx-3 border-gray-500/30 dark:border-white/40" />
                               )}
-                            </>
+                            </Fragment>
                           ))}
                         </List>
                       </Card>
@@ -187,19 +207,19 @@ const PlaceOrderPage = () => {
                             variant={'paragraph'}
                             className="text-xl p-1 text-black dark:text-white"
                           >
-                            Tax Price: $ {cart.taxPrice.toFixed(2)}
+                            Tax Price: $ {cart.taxPrice}
                           </Typography>
                           <hr />
                           <Typography
                             variant={'paragraph'}
                             className="text-xl p-1 text-black dark:text-white"
                           >
-                            Total Price: $ {cart.totalPrice.toFixed(2)}
+                            Total Price: $ {cart.totalPrice}
                           </Typography>
                           <hr />
                         </div>
                         <div className="self-center mt-4 w-full">
-                          <Button fullWidth className="">
+                          <Button fullWidth onClick={placeOrderHandler}>
                             Place Order
                           </Button>
                         </div>
@@ -209,7 +229,9 @@ const PlaceOrderPage = () => {
                       </Card>
                     </div>
                   </div>
-                  {error && <Message variant={'error'}>{error}</Message>}
+                  {error && (
+                    <Message variant={'error'}>{error?.data?.message}</Message>
+                  )}
                 </>
               )}
             </div>

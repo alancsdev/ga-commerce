@@ -26,7 +26,6 @@ const cartSlice = createSlice({
         // If item doesn't exist, add it to the cart
         state.cartItems.push(newItem);
       }
-
       updateCart(state);
     },
     removeFromCart: (state, action) => {
