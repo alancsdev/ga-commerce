@@ -96,7 +96,7 @@ const Orders = () => {
                               order.isPaid && order.isDelivered
                                 ? 'DELIVERED'
                                 : order.isPaid && !order.isDelivered
-                                ? 'IN TRANSPORT'
+                                ? 'SHIPPING'
                                 : 'PENDING'
                             }
                             color={
