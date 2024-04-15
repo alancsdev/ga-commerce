@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Card, Button } from '@material-tailwind/react';
 import UserProfile from '../../components/UserProfile';
 import Orders from '../../components/Orders';
+import { Card, Button } from '@material-tailwind/react';
 
 const UserProfilePage = () => {
   const [userSelection, setUserSelection] = useState(false);

@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../../components/Loader';
+import { useRegisterMutation } from '../../slices/usersApiSlice';
+import { setCredentials } from '../../slices/authSlice';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardHeader,
@@ -11,10 +15,6 @@ import {
   Checkbox,
   Button,
 } from '@material-tailwind/react';
-import { toast } from 'react-toastify';
-import Loader from '../../components/Loader';
-import { useRegisterMutation } from '../../slices/usersApiSlice';
-import { setCredentials } from '../../slices/authSlice';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');

@@ -1,9 +1,9 @@
-import { Typography } from '@material-tailwind/react';
+import { useState, useEffect } from 'react';
 import Product from '../../components/Product';
-import { useGetProductsQuery } from '../../slices/productsApiSlice';
 import ProductSkeleton from './../../components/ProductSkeleton';
 import Message from '../../components/Message';
-import { useState, useEffect } from 'react';
+import { useGetProductsQuery } from '../../slices/productsApiSlice';
+import { Typography } from '@material-tailwind/react';
 
 function HomePage() {
   const { data: products, isLoading, error } = useGetProductsQuery();

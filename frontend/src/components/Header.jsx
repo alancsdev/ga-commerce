@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../assets/ga-logo.png';
+import { useLogoutMutation } from '../slices/usersApiSlice';
+import { removeCredentials } from '../slices/authSlice';
 import { FaShoppingCart, FaUser, FaListAlt } from 'react-icons/fa';
 import { RiAdminFill } from 'react-icons/ri';
 import {
@@ -16,9 +19,6 @@ import {
   MenuList,
   MenuItem,
 } from '@material-tailwind/react';
-import logo from '../assets/ga-logo.png';
-import { useLogoutMutation } from '../slices/usersApiSlice';
-import { removeCredentials } from '../slices/authSlice';
 import ThemeToggle from './ThemeToggle';
 
 function Header() {

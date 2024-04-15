@@ -1,8 +1,8 @@
-import { Card, Typography, Chip } from '@material-tailwind/react';
-import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
+import { Link } from 'react-router-dom';
 import Loader from './Loader';
 import Message from './Message';
-import { Link } from 'react-router-dom';
+import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
+import { Card, Typography, Chip } from '@material-tailwind/react';
 
 const TABLE_HEAD = ['ID', 'DATE', 'TOTAL', 'STATUS'];
 

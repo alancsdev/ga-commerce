@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import Rating from './Rating';
 import {
   Card,
   CardHeader,
@@ -5,8 +7,6 @@ import {
   CardFooter,
   Typography,
 } from '@material-tailwind/react';
-import { Link } from 'react-router-dom';
-import Rating from './Rating';
 
 function Product({ product }) {
   return (

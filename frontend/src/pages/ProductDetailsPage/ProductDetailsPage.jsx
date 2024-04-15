@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FaShoppingCart } from 'react-icons/fa';
-import { Button, Typography } from '@material-tailwind/react';
 import Rating from '../../components/Rating';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import { useGetProductDetailsQuery } from '../../slices/productsApiSlice';
 import { addToCart } from '../../slices/cartSlice';
+import { Button, Typography } from '@material-tailwind/react';
 
 const ProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);

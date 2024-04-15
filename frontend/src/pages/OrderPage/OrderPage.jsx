@@ -9,6 +9,9 @@ import {
   useGetPayPalClientIdQuery,
   useDeliverOrderMutation,
 } from '../../slices/ordersApiSlice';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 import {
   Button,
   Typography,
@@ -16,9 +19,6 @@ import {
   ListItem,
   Card,
 } from '@material-tailwind/react';
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
-import { toast } from 'react-toastify';
-import moment from 'moment';
 
 const OrderPage = () => {
   const { id: orderId } = useParams();

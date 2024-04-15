@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Message from './Message';
 import Loader from './Loader';
 import {
@@ -9,7 +8,8 @@ import {
   useUpdateProfileMutation,
 } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
-import { Card, Typography, Input, Button } from '@material-tailwind/react';
+import { Typography, Input, Button } from '@material-tailwind/react';
+import { toast } from 'react-toastify';
 
 const UserProfile = () => {
   // Getting the userInfo of the store

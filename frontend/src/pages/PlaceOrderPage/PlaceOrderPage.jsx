@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import CheckoutSteps from '../../components/CheckoutSteps';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
+import { useCreateOrderMutation } from '../../slices/ordersApiSlice';
+import { clearCartItems } from '../../slices/cartSlice';
+import { toast } from 'react-toastify';
 import {
   Button,
   Typography,
@@ -11,9 +14,6 @@ import {
   List,
   ListItem,
 } from '@material-tailwind/react';
-import { toast } from 'react-toastify';
-import { useCreateOrderMutation } from '../../slices/ordersApiSlice';
-import { clearCartItems } from '../../slices/cartSlice';
 
 const PlaceOrderPage = () => {
   const navigate = useNavigate();

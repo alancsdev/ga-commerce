@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import CheckoutSteps from '../../components/CheckoutSteps';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
-import { Card, Button, Input, Typography } from '@material-tailwind/react';
-import { toast } from 'react-toastify';
 import {
   useGetProfileQuery,
   useUpdateProfileMutation,
 } from '../../slices/usersApiSlice';
 import { saveShippingAddress } from '../../slices/cartSlice';
+import { Card, Button, Input, Typography } from '@material-tailwind/react';
+import { toast } from 'react-toastify';
 
 const ShippingPage = () => {
   // Getting the userInfo of the store
