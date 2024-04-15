@@ -7,6 +7,7 @@ import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
   useGetPayPalClientIdQuery,
+  useDeliverOrderMutation,
 } from '../../slices/ordersApiSlice';
 import {
   Button,
@@ -31,6 +32,9 @@ const OrderPage = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
+
+  const [deliverOrder, { isLoading: isLoadingDeliver }] =
+    useDeliverOrderMutation();
 
   const {
     data: paypal,
@@ -110,6 +114,16 @@ const OrderPage = () => {
   // };
   const onError = (error) => {
     toast.error(error.message);
+  };
+
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success('Order delivered');
+    } catch (error) {
+      toast.error(error?.data?.message || error.message);
+    }
   };
 
   return (
@@ -321,11 +335,35 @@ const OrderPage = () => {
                           <hr />
                           <div className="mt-3">
                             {order.isDelivered ? (
-                              <Message variant={'info'}>Delivered</Message>
+                              <Message variant={'info'}>
+                                Delivered on{' '}
+                                {moment(order.deliveredAt).format(
+                                  'DD/MM/YYYY HH:mm A'
+                                )}
+                              </Message>
                             ) : (
                               <Message variant={'error'}>Not Delivered</Message>
                             )}
                           </div>
+
+                          {userInfo &&
+                            userInfo.isAdmin &&
+                            order.isPaid &&
+                            !order.isDelivered && (
+                              <Button
+                                fullWidth
+                                onClick={deliverOrderHandler}
+                                className="mt-2"
+                              >
+                                Mark as delivered
+                              </Button>
+                            )}
+
+                          {isLoadingDeliver && (
+                            <div className="flex justify-center items-center mt-2">
+                              <Loader size={44} />
+                            </div>
+                          )}
                         </div>
                       </Card>
                     </div>

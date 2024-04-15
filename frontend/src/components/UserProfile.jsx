@@ -90,8 +90,8 @@ const UserProfile = () => {
       //Unwrap is a redux toolkit function, if don't use unwrap the access will be data:{ object }
       const res = await updateProfile(dataToSend).unwrap();
 
-      // Removing password and isAdmin to save in the cookie
-      const { password, isAdmin, ...rest } = res;
+      // Removing password to save in the cookie
+      const { password, ...rest } = res;
       dispatch(setCredentials({ ...rest }));
 
       toast.success('User updated!');

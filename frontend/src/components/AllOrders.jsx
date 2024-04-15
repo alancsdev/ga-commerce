@@ -1,13 +1,13 @@
 import { Card, Typography, Chip } from '@material-tailwind/react';
-import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
+import { useGetOrdersQuery } from '../slices/ordersApiSlice';
 import Loader from './Loader';
 import Message from './Message';
 import { Link } from 'react-router-dom';
 
-const TABLE_HEAD = ['ID', 'DATE', 'TOTAL', 'STATUS'];
+const TABLE_HEAD = ['ID', 'USER', 'DATE', 'TOTAL', 'STATUS'];
 
 const Orders = () => {
-  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
+  const { data: orders, isLoading, error } = useGetOrdersQuery();
 
   return (
     <>
@@ -64,6 +64,15 @@ const Orders = () => {
                             }
                           </Typography>
                         </div>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-bold dark:text-white"
+                        >
+                          {order.user && order.user.name}
+                        </Typography>
                       </td>
                       <td className={classes}>
                         <Typography
