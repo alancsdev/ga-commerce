@@ -129,7 +129,9 @@ function Header() {
                   variant="small"
                   className="font-medium dark:text-white"
                 >
-                  My Profile
+                  <Link to="/profile" onClick={handleLinkClick}>
+                    My Profile{' '}
+                  </Link>
                 </Typography>
               </MenuItem>
 

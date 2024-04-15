@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
@@ -8,12 +8,20 @@ import {
   usePayOrderMutation,
   useGetPayPalClientIdQuery,
 } from '../../slices/ordersApiSlice';
-import { Typography, List, ListItem, Card } from '@material-tailwind/react';
+import {
+  Button,
+  Typography,
+  List,
+  ListItem,
+  Card,
+} from '@material-tailwind/react';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 
 const OrderPage = () => {
   const { id: orderId } = useParams();
+  const navigate = useNavigate();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -64,10 +72,50 @@ const OrderPage = () => {
     paypalDispatch,
   ]);
 
+  const myOrdersHandle = () => {
+    navigate('/profile');
+  };
+
+  const createOrder = (data, actions) => {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              value: order.totalPrice,
+            },
+          },
+        ],
+      })
+      .then((orderId) => {
+        return orderId;
+      });
+  };
+
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then(async function (details) {
+      try {
+        await payOrder({ orderId, details });
+        refetch();
+        toast.success('Payment successful');
+      } catch (error) {
+        toast.error(error?.data?.message || error.message);
+      }
+    });
+  };
+  // const onApproveTest = async () => {
+  //   await payOrder({ orderId, details: { payer: {} } });
+  //   refetch();
+  //   toast.success('Payment successful');
+  // };
+  const onError = (error) => {
+    toast.error(error.message);
+  };
+
   return (
     <>
       {isLoading ? (
-        <div className="flex w-full custom-container-center-placeorder items-center">
+        <div className="flex w-full custom-container-center-placeorder justify-center items-center">
           <div className="mx-4 md:mx-10 xl:mx-10 w-full 2xl:max-w-7xl">
             <div className="flex justify-center w-full">
               <div className="w-full mx-0 md:mx-10 bk1:max-w-7xl flex flex-col justify-center items-center">
@@ -86,14 +134,17 @@ const OrderPage = () => {
             <div className="mx-4 md:mx-10 xl:mx-10 w-full 2xl:max-w-7xl">
               <div className="flex justify-center w-full">
                 <div className="w-full mx-0 md:mx-10 bk1:max-w-7xl flex flex-col justify-center items-center">
+                  <div className="w-full text-end mr-4">
+                    <Button onClick={myOrdersHandle}>My Orders</Button>
+                  </div>
                   <div className="flex flex-col lg:flex-row gap-4 w-full">
                     <div className="flex w-full lg:w-2/3">
                       <Card className="w-full border-4 shadow-lg dark:bg-gray-700 dark:border-gray-800">
                         <Typography
                           variant={'h2'}
-                          className="mt-4 self-center text-xl md:text-2xl lg:text-3xl mb-2 dark:text-white"
+                          className="p-4 self-center text-xl md:text-2xl lg:text-3xl mb-2 dark:text-white"
                         >
-                          Order Details: {order._id}
+                          Order ID: {order._id}
                         </Typography>
                         <List>
                           {order.orderItems.map((item, index) => (
@@ -148,6 +199,89 @@ const OrderPage = () => {
                     <div className="flex flex-col lg:w-1/3 gap-4">
                       <Card className="w-full p-4 border-4 shadow-lg dark:bg-gray-700 dark:border-gray-800">
                         <div className="">
+                          {/* Total number of items */}
+                          <Typography
+                            variant={'h3'}
+                            className="text-black dark:text-white"
+                          >
+                            {order.orderItems.reduce(
+                              (acc, item) => acc + item.quantity,
+                              0
+                            )}{' '}
+                            {order.orderItems.reduce(
+                              (acc, item) => acc + item.quantity,
+                              0
+                            ) === 1
+                              ? 'item'
+                              : 'items'}
+                          </Typography>
+                          <hr />
+                          {/* Prices */}
+                          <Typography
+                            variant={'paragraph'}
+                            className="text-xl p-1 text-black dark:text-white"
+                          >
+                            Total $ {order.itemsPrice.toFixed(2)}
+                          </Typography>
+                          <hr />
+                          <Typography
+                            variant={'paragraph'}
+                            className="text-xl p-1 text-black dark:text-white"
+                          >
+                            Shipping Price: $ {order.shippingPrice}
+                          </Typography>
+                          <hr />
+                          <Typography
+                            variant={'paragraph'}
+                            className="text-xl p-1 text-black dark:text-white"
+                          >
+                            Tax Price: $ {order.taxPrice}
+                          </Typography>
+                          <hr />
+                          <Typography
+                            variant={'paragraph'}
+                            className="text-xl p-1 text-black dark:text-white"
+                          >
+                            Total Price: $ {order.totalPrice}
+                          </Typography>
+                          <hr />
+                          <div className="mt-3">
+                            {order.isPaid ? (
+                              <Message variant={'info'}>
+                                Paid on{' '}
+                                {moment(order.paidAt).format(
+                                  'DD/MM/YYYY HH:mm A'
+                                )}
+                              </Message>
+                            ) : (
+                              <Message variant={'error'}>Not Paid</Message>
+                            )}
+                          </div>
+                          {!order.isPaid && (
+                            <div className="flex flex-col items-center mt-2">
+                              {isLoadingPayOrder && <Loader size={44} />}
+                              {isPending ? (
+                                <Loader size={44} />
+                              ) : (
+                                <div className="w-full">
+                                  {/* <Button onClick={onApproveTest}>
+                                    Test Pay Order
+                                  </Button> */}
+                                  <div>
+                                    <PayPalButtons
+                                      createOrder={createOrder}
+                                      onApprove={onApprove}
+                                      onError={onError}
+                                    ></PayPalButtons>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </Card>
+                      <Card className="w-full p-4 border-4 shadow-lg dark:bg-gray-700 dark:border-gray-800">
+                        <div className="">
                           {/* Shipping data */}
                           <Typography
                             variant={'h3'}
@@ -190,58 +324,6 @@ const OrderPage = () => {
                               <Message variant={'info'}>Delivered</Message>
                             ) : (
                               <Message variant={'error'}>Not Delivered</Message>
-                            )}
-                          </div>
-                        </div>
-                      </Card>
-                      <Card className="w-full p-4 border-4 shadow-lg dark:bg-gray-700 dark:border-gray-800">
-                        <div className="">
-                          {/* Total number of items */}
-                          <Typography
-                            variant={'h3'}
-                            className="text-black dark:text-white"
-                          >
-                            {order.orderItems.reduce(
-                              (acc, item) => acc + item.quantity,
-                              0
-                            )}{' '}
-                            items
-                          </Typography>
-                          <hr />
-                          {/* Prices */}
-                          <Typography
-                            variant={'paragraph'}
-                            className="text-xl p-1 text-black dark:text-white"
-                          >
-                            Total $ {order.itemsPrice}
-                          </Typography>
-                          <hr />
-                          <Typography
-                            variant={'paragraph'}
-                            className="text-xl p-1 text-black dark:text-white"
-                          >
-                            Shipping Price: $ {order.shippingPrice}
-                          </Typography>
-                          <hr />
-                          <Typography
-                            variant={'paragraph'}
-                            className="text-xl p-1 text-black dark:text-white"
-                          >
-                            Tax Price: $ {order.taxPrice}
-                          </Typography>
-                          <hr />
-                          <Typography
-                            variant={'paragraph'}
-                            className="text-xl p-1 text-black dark:text-white"
-                          >
-                            Total Price: $ {order.totalPrice}
-                          </Typography>
-                          <hr />
-                          <div className="mt-3">
-                            {order.isPaid ? (
-                              <Message variant={'info'}>Paid</Message>
-                            ) : (
-                              <Message variant={'error'}>Not Paid</Message>
                             )}
                           </div>
                         </div>

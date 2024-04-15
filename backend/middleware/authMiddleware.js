@@ -13,7 +13,6 @@ const protect = asyncHandler(async (req, res, next) => {
     try {
       //Decoding the token, getting the properties like the jwt website
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log('decoded in authMiddleware', decoded);
 
       //Using -password to not get the password from the database
       // Also adding to the req.user to be used in all the website
