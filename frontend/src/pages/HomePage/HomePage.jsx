@@ -50,7 +50,7 @@ function HomePage() {
         </Message>
       ) : (
         <div className="flex justify-center h-full">
-          <div className="mx-4 md:mx-10 xl:mx-10 bk1:max-w-7xl">
+          <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-[1700px]">
             <Typography variant="h1" className="mx-auto">
               Latest Products
             </Typography>

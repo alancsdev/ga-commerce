@@ -34,7 +34,7 @@ const CartPage = () => {
 
   return (
     <div className="flex justify-center w-full">
-      <div className="w-full mx-4 md:mx-10 bk1:max-w-7xl flex flex-col">
+      <div className="w-full mx-4 md:mx-10 2xl:max-w-[1700px] flex flex-col">
         <Typography
           variant={'h1'}
           className="self-center text-2xl md:text-3xl lg:text-4xl mb-2 dark:text-white"

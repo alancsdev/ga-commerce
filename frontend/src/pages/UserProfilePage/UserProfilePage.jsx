@@ -16,9 +16,9 @@ const UserProfilePage = () => {
 
   return (
     <>
-      <div className="mx-2 flex justify-center">
-        <div className="mx-4 md:mx-10 xl:mx-10 w-full 2xl:max-w-7xl flex flex-col lg:flex-row justify-center gap-1">
-          <Card className="lg:w-[20%] overflow-hidden border-x-2 border-t-2 border-b-4 shadow-lg flex gap-1 flex-row lg:flex-col dark:bg-gray-700 dark:border-gray-800">
+      <div className="mx-2 flex justify-center h-full">
+        <div className="mx-4 md:mx-10 xl:mx-10 w-full h-full 2xl:max-w-[1700px] flex flex-col lg:flex-row justify-center gap-1">
+          <Card className="lg:w-[20%] h-full overflow-hidden border-x-2 border-t-2 border-b-4 shadow-lg flex gap-1 flex-row lg:flex-col dark:bg-gray-700 dark:border-gray-800">
             <Button
               className={`w-1/2 lg:w-full rounded-none ${
                 !userSelection ? 'bg-red-500 text-white' : ''
@@ -38,11 +38,11 @@ const UserProfilePage = () => {
           </Card>
 
           {userSelection ? (
-            <Card className="lg:w-[80%] p-8 border-x-2 border-t-2 border-b-4 shadow-lg flex items-center min-h-[650px] dark:bg-gray-700 dark:border-gray-800">
+            <Card className="lg:w-[80%] h-full border-x-2 border-t-2 border-b-4 shadow-lg flex items-center dark:bg-gray-700 dark:border-gray-800">
               <UserProfile />
             </Card>
           ) : (
-            <Card className="lg:w-[80%] border-x-2 border-t-2 border-b-4 shadow-lg flex items-center min-h-[650px] dark:bg-gray-700 dark:border-gray-800">
+            <Card className="lg:w-[80%] h-full border-x-2 border-t-2 border-b-4 shadow-lg flex items-center dark:bg-gray-700 dark:border-gray-800">
               <Orders />
             </Card>
           )}

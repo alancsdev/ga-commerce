@@ -131,3 +131,8 @@ main {
 .custom-height-orderpage {
   height: calc(100vh - 120px);
 }
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

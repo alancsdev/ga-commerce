@@ -104,7 +104,7 @@ const UserProfile = () => {
   return (
     <>
       {isLoadingUserInfo ? (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex justify-center items-center h-full min-h-[650px]">
           <Loader size={176} />
         </div>
       ) : errorUserInfo ? (

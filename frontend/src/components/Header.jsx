@@ -180,7 +180,7 @@ function Header() {
                 </MenuHandler>
                 <MenuList className="dark:bg-gray-900 dark:border-gray-700">
                   <Link
-                    to="/admin/orderlist"
+                    to="/admin/adminpage"
                     onClick={handleLinkClick}
                     className="outline-none"
                   >
@@ -191,7 +191,7 @@ function Header() {
                         variant="small"
                         className="font-medium dark:text-white"
                       >
-                        Order List
+                        Management
                       </Typography>
                     </MenuItem>
                   </Link>

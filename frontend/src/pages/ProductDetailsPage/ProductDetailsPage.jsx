@@ -7,8 +7,8 @@ import Rating from '../../components/Rating';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import { useGetProductDetailsQuery } from '../../slices/productsApiSlice';
-import { addToCart } from '../../slices/cartSlice';
 import { Button, Typography } from '@material-tailwind/react';
+import { addToCart } from '../../slices/cartSlice';
 
 const ProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -51,7 +51,7 @@ const ProductDetailsPage = () => {
         </Message>
       ) : (
         <div className="flex justify-center h-full">
-          <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-7xl h-full">
+          <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-[1700px] h-full">
             <div className="flex h-10 justify-end">
               <Link to="/">
                 <Button className="">Go Back</Button>

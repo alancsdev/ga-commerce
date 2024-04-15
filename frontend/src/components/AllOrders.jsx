@@ -12,7 +12,7 @@ const Orders = () => {
   return (
     <>
       {isLoading ? (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex justify-center items-center h-full min-h-[650px]">
           <Loader size={176} />
         </div>
       ) : error ? (
@@ -21,7 +21,7 @@ const Orders = () => {
         </Message>
       ) : (
         <>
-          <Card className="h-full w-full dark:bg-gray-700 overflow-x-auto rounded-lg mb-[-1px]">
+          <Card className="h-full w-full dark:bg-gray-700 overflow-x-auto rounded-lg ">
             <table className="w-full min-w-max table-auto text-left m-0 border-collapse">
               <thead>
                 <tr>

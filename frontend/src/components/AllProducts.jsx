@@ -1,13 +1,19 @@
 import { Link } from 'react-router-dom';
 import Loader from './Loader';
 import Message from './Message';
-import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
-import { Card, Typography, Chip } from '@material-tailwind/react';
+import { useGetProductsQuery } from '../slices/productsApiSlice';
+import {
+  Card,
+  Typography,
+  Tooltip,
+  IconButton,
+} from '@material-tailwind/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
-const TABLE_HEAD = ['ID', 'DATE', 'TOTAL', 'STATUS'];
+const TABLE_HEAD = ['ID', 'NAME', 'PRICE', 'CATEGORY', '', ''];
 
-const Orders = () => {
-  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
+const AllProducts = () => {
+  const { data: products, isLoading, error } = useGetProductsQuery();
 
   return (
     <>
@@ -21,13 +27,13 @@ const Orders = () => {
         </Message>
       ) : (
         <>
-          <Card className="h-full w-full dark:bg-gray-700 overflow-x-auto rounded-lg mb-[-1px]">
+          <Card className="h-full w-full dark:bg-gray-700 overflow-auto rounded-lg mb-[-1px]">
             <table className="w-full min-w-max table-auto text-left m-0 border-collapse">
               <thead>
                 <tr>
-                  {TABLE_HEAD.map((head) => (
+                  {TABLE_HEAD.map((head, index) => (
                     <th
-                      key={head}
+                      key={index}
                       className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 dark:bg-gray-800"
                     >
                       <Typography
@@ -42,15 +48,15 @@ const Orders = () => {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order, index) => {
-                  const isLast = index === orders.length - 1;
+                {products.map((product, index) => {
+                  const isLast = index === products.length - 1;
                   const classes = isLast
                     ? 'p-3'
                     : 'p-3 border-b border-blue-gray-50';
 
                   return (
-                    <tr key={order._id}>
-                      <td className={classes}>
+                    <tr key={product._id}>
+                      <td className={`${classes} max-w-[200px]`}>
                         <div className="flex items-center gap-3">
                           <Typography
                             variant="small"
@@ -58,56 +64,53 @@ const Orders = () => {
                             className="font-bold dark:text-white"
                           >
                             {
-                              <Link to={`/orders/${order._id}`}>
-                                {order._id}
+                              <Link to={`/products/${product._id}`}>
+                                {product._id}
                               </Link>
                             }
                           </Typography>
                         </div>
                       </td>
-                      <td className={classes}>
+                      <td className={`${classes} max-w-[200px]`}>
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-bold dark:text-white"
                         >
-                          {order.createdAt.substring(0, 10)}
+                          {product.name}
                         </Typography>
                       </td>
-                      <td className={classes}>
+                      <td className={`${classes}`}>
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-bold dark:text-white"
                         >
-                          $ {order.totalPrice}
+                          $ {product.price.toFixed(2)}
                         </Typography>
                       </td>
-                      <td className={classes}>
+                      <td className={`${classes} max-w-[150px]`}>
                         <Typography
-                          variant="h6"
+                          variant="small"
                           color="blue-gray"
                           className="font-bold dark:text-white"
                         >
-                          <Chip
-                            size="sm"
-                            variant="filled"
-                            value={
-                              order.isPaid && order.isDelivered
-                                ? 'DELIVERED'
-                                : order.isPaid && !order.isDelivered
-                                ? 'IN TRANSPORT'
-                                : 'PENDING'
-                            }
-                            color={
-                              order.isPaid && order.isDelivered
-                                ? 'green'
-                                : order.isPaid && !order.isDelivered
-                                ? 'blue'
-                                : 'red'
-                            }
-                          />
+                          {product.category}
                         </Typography>
+                      </td>
+                      <td className={`${classes} max-w-[20px]`}>
+                        <Tooltip content="Edit Product">
+                          <IconButton variant="text">
+                            <FaEdit className="h-4 w-4" />
+                          </IconButton>
+                        </Tooltip>
+                      </td>
+                      <td className={`${classes} max-w-[20px]`}>
+                        <Tooltip content="Delete">
+                          <IconButton variant="text">
+                            <FaTrash className="h-4 w-4" />
+                          </IconButton>
+                        </Tooltip>
                       </td>
                     </tr>
                   );
@@ -121,4 +124,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AllProducts;

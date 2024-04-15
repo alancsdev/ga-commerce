@@ -24,7 +24,7 @@ import PaymentPage from './pages/PaymentPage/PaymentPage.jsx';
 import PlaceOrderPage from './pages/PlaceOrderPage/PlaceOrderPage.jsx';
 import OrderPage from './pages/OrderPage/OrderPage.jsx';
 import UserProfilePage from './pages/UserProfilePage/UserProfilePage.jsx';
-import OrderListPage from './pages/admin/OrderListPage/OrderListPage.jsx';
+import AdminPage from './pages/admin/AdminPage/AdminPage.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,7 +45,7 @@ const router = createBrowserRouter(
       </Route>
       {/* Admin routes */}
       <Route path="" element={<AdminRoute />}>
-        <Route path="/admin/orderList" element={<OrderListPage />} />
+        <Route path="/admin/adminpage" element={<AdminPage />} />
       </Route>
     </Route>
   )
