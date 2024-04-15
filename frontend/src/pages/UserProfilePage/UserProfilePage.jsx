@@ -38,7 +38,7 @@ const UserProfilePage = () => {
           </Card>
 
           {userSelection ? (
-            <Card className="lg:w-[80%] h-full border-x-2 border-t-2 border-b-4 shadow-lg flex items-center dark:bg-gray-700 dark:border-gray-800">
+            <Card className="lg:w-[80%] p-8 h-full border-x-2 border-t-2 border-b-4 shadow-lg flex items-center dark:bg-gray-700 dark:border-gray-800">
               <UserProfile />
             </Card>
           ) : (
