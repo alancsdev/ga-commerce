@@ -1,33 +1,38 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Message from '../../components/Message';
-import Loader from '../../components/Loader';
+import { useNavigate, useParams } from 'react-router-dom';
+import Message from '../../../components/Message';
+import Loader from '../../../components//Loader';
 import {
-  useGetProfileQuery,
-  useUpdateProfileMutation,
-} from '../../slices/usersApiSlice';
-import { setCredentials } from '../../slices/authSlice';
-import { Card, Typography, Input, Button } from '@material-tailwind/react';
+  useGetUserDetailsAdminQuery,
+  useUpdateUserDetailsAdminMutation,
+} from '../../../slices/usersApiSlice';
+import {
+  Card,
+  Typography,
+  Input,
+  Button,
+  Radio,
+} from '@material-tailwind/react';
+import { toast } from 'react-toastify';
 
-const UserProfilePage = () => {
-  // Getting the userInfo of the store
-  const { userInfo } = useSelector((state) => state.auth);
+const EditUserProfilePage = () => {
+  const { id: userId } = useParams();
 
   // Getting the userData of the database
   const {
     data: user,
     isLoading: isLoadingUserInfo,
     error: errorUserInfo,
-  } = useGetProfileQuery(userInfo._id);
+    refetch,
+  } = useGetUserDetailsAdminQuery(userId);
 
-  const [updateProfile, { isLoading: isLoadingUpdateProfile }] =
-    useUpdateProfileMutation();
+  const [updateUserDetailsAdmin, { isLoading: isLoadingUpdateProfile }] =
+    useUpdateUserDetailsAdminMutation();
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    isAdmin: false,
     password: '',
     confirmPassword: '',
     address: '',
@@ -36,7 +41,6 @@ const UserProfilePage = () => {
     country: '',
   });
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,12 +48,13 @@ const UserProfilePage = () => {
       setFormData({
         name: user.name || '',
         email: user.email || '',
+        isAdmin: user.isAdmin || false,
         password: '',
         confirmPassword: '',
-        address: user.shippingAddress.address || '',
-        city: user.shippingAddress.city || '',
-        postalCode: user.shippingAddress.postalCode || '',
-        country: user.shippingAddress.country || '',
+        address: user?.shippingAddress?.address || '',
+        city: user?.shippingAddress?.city || '',
+        postalCode: user?.shippingAddress?.postalCode || '',
+        country: user?.shippingAddress?.country || '',
       });
     }
   }, [user]);
@@ -60,6 +65,7 @@ const UserProfilePage = () => {
     const {
       name,
       email,
+      isAdmin,
       password,
       confirmPassword,
       address,
@@ -74,8 +80,10 @@ const UserProfilePage = () => {
     }
 
     const dataToSend = {
+      userId,
       name,
       email,
+      isAdmin,
       address,
       city,
       postalCode,
@@ -88,16 +96,17 @@ const UserProfilePage = () => {
 
     try {
       //Unwrap is a redux toolkit function, if don't use unwrap the access will be data:{ object }
-      const res = await updateProfile(dataToSend).unwrap();
-
-      const { password, isAdmin, ...rest } = res;
-      dispatch(setCredentials({ ...rest }));
-
+      await updateUserDetailsAdmin(dataToSend).unwrap();
+      refetch();
       toast.success('User updated!');
-      navigate('/profile');
+      navigate('/admin/adminpage');
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
+  };
+
+  const backHandler = () => {
+    navigate('/admin/adminpage');
   };
 
   return (
@@ -111,12 +120,17 @@ const UserProfilePage = () => {
           </div>
         </div>
       ) : errorUserInfo ? (
-        <Message>{errorUserInfo?.data?.message || errorUserInfo.error}</Message>
+        <Message variant={'error'}>
+          {errorUserInfo?.data?.message || errorUserInfo.error}
+        </Message>
       ) : (
         <>
           <div className="flex justify-center">
             <div className="mx-4 md:mx-10 xl:mx-10 w-full 2xl:max-w-7xl">
               <Card className="p-8 border-x-2 border-t-2 border-b-4 shadow-lg flex items-center min-h-[650px] dark:bg-gray-700 dark:border-gray-800">
+                <Button className="self-end" onClick={backHandler}>
+                  back
+                </Button>
                 <Typography
                   variant="h4"
                   color="blue-gray"
@@ -125,7 +139,7 @@ const UserProfilePage = () => {
                   User Profile
                 </Typography>
 
-                <form onSubmit={submitHandler} className="mt-8 mb-2 w-full">
+                <form onSubmit={submitHandler} className="w-full">
                   <div className="mb-1 flex flex-col gap-3">
                     <Typography
                       variant="h6"
@@ -291,7 +305,39 @@ const UserProfilePage = () => {
                         })
                       }
                     />{' '}
-                    <Button className="mt-6" fullWidth onClick={submitHandler}>
+                    <div className="flex gap-10">
+                      <Radio
+                        name="type"
+                        label={
+                          <Typography
+                            color="blue-gray"
+                            className="font-normal text-blue-gray-400 dark:text-white"
+                          >
+                            Admin
+                          </Typography>
+                        }
+                        checked={formData.isAdmin}
+                        onChange={() =>
+                          setFormData({ ...formData, isAdmin: true })
+                        }
+                      />
+                      <Radio
+                        name="type"
+                        label={
+                          <Typography
+                            color="blue-gray"
+                            className="font-normal text-blue-gray-400 dark:text-white"
+                          >
+                            Normal User
+                          </Typography>
+                        }
+                        checked={!formData.isAdmin}
+                        onChange={() =>
+                          setFormData({ ...formData, isAdmin: false })
+                        }
+                      />
+                    </div>
+                    <Button className="mt-6" fullWidth type="submit">
                       Update
                     </Button>
                   </div>
@@ -308,4 +354,4 @@ const UserProfilePage = () => {
   );
 };
 
-export default UserProfilePage;
+export default EditUserProfilePage;

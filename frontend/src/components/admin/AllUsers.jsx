@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../Loader';
 import Message from '../Message';
 import {
-  useGetProductsQuery,
-  useDeleteProductMutation,
-} from '../../slices/productsApiSlice';
+  useGetAllUsersQuery,
+  useDeleteUserMutation,
+} from '../../slices/usersApiSlice';
 import {
   Button,
   Card,
@@ -15,41 +15,36 @@ import {
   Dialog,
   DialogHeader,
   DialogFooter,
+  Chip,
 } from '@material-tailwind/react';
 import { toast } from 'react-toastify';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
-const TABLE_HEAD = ['ID', 'NAME', 'PRICE', 'CATEGORY', ''];
+const TABLE_HEAD = ['ID', 'NAME', 'EMAIL', 'LEVEL', ''];
 
-const AllProducts = () => {
-  const navigate = useNavigate();
-
+const AllUsers = () => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
+  const [userToDelete, setUserToDelete] = useState(null);
 
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const { data: users, isLoading, error, refetch } = useGetAllUsersQuery();
 
-  const [deleteProduct, { isLoading: isLoadingDeleteProduct }] =
-    useDeleteProductMutation();
+  const [deleteUser, { isLoading: isLoadingDeleteUser }] =
+    useDeleteUserMutation();
 
-  const deleteHandler = async (product) => {
-    setProductToDelete(product);
+  const deleteHandler = async (user) => {
+    setUserToDelete(user);
     setOpenDialog(true);
   };
 
   const confirmDeleteHandler = async () => {
     try {
-      await deleteProduct(productToDelete._id);
+      await deleteUser(userToDelete._id);
       refetch();
       setOpenDialog(false);
-      toast.success('Product deleted successfully!');
+      toast.success('User deleted successfully!');
     } catch (error) {
       toast.error(error?.data?.message || error.message);
     }
-  };
-
-  const createProductHandler = () => {
-    navigate('/admin/create-product');
   };
 
   return (
@@ -65,16 +60,10 @@ const AllProducts = () => {
       ) : (
         <>
           <Card className="h-full w-full dark:bg-gray-800 overflow-auto rounded-lg mb-[-1px]">
-            <Button
-              className="w-52 self-end mb-1"
-              onClick={createProductHandler}
-            >
-              Create Product
-            </Button>
             <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
               <DialogHeader>
-                Are you sure you want to delete the product{' '}
-                {productToDelete?.name}?
+                Are you sure you want to delete the product {userToDelete?.name}
+                ?
               </DialogHeader>
               <DialogFooter className="flex justify-between">
                 <Button
@@ -93,7 +82,7 @@ const AllProducts = () => {
                   <span>Confirm</span>
                 </Button>
               </DialogFooter>
-              {isLoadingDeleteProduct && (
+              {isLoadingDeleteUser && (
                 <div className="flex justify-center mb-2">
                   <Loader size={44} />
                 </div>
@@ -119,14 +108,14 @@ const AllProducts = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product, index) => {
-                  const isLast = index === products.length - 1;
+                {users.map((user, index) => {
+                  const isLast = index === users.length - 1;
                   const classes = isLast
                     ? 'p-3'
                     : 'p-3 border-b border-blue-gray-50';
 
                   return (
-                    <tr key={product._id}>
+                    <tr key={user._id}>
                       <td className={`${classes} max-w-[200px]`}>
                         <div className="flex items-center gap-3">
                           <Typography
@@ -134,31 +123,9 @@ const AllProducts = () => {
                             color="blue-gray"
                             className="font-bold dark:text-white"
                           >
-                            {
-                              <Link to={`/product/${product._id}`}>
-                                {product._id}
-                              </Link>
-                            }
+                            {user._id}
                           </Typography>
                         </div>
-                      </td>
-                      <td className={`${classes} max-w-[200px]`}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-bold dark:text-white"
-                        >
-                          {product.name}
-                        </Typography>
-                      </td>
-                      <td className={`${classes} max-w-[80px]`}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-bold dark:text-white"
-                        >
-                          $ {product.price.toFixed(2)}
-                        </Typography>
                       </td>
                       <td className={`${classes} max-w-[100px]`}>
                         <Typography
@@ -166,13 +133,36 @@ const AllProducts = () => {
                           color="blue-gray"
                           className="font-bold dark:text-white"
                         >
-                          {product.category}
+                          {user.name}
+                        </Typography>
+                      </td>
+                      <td className={`${classes} max-w-[200px]`}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-bold dark:text-white"
+                        >
+                          <Link to={`mailto:${user.email}`}>{user.email}</Link>
+                        </Typography>
+                      </td>
+                      <td className={`${classes} max-w-[150px]`}>
+                        <Typography
+                          variant="h6"
+                          color="blue-gray"
+                          className="font-bold dark:text-white"
+                        >
+                          <Chip
+                            size="sm"
+                            variant="filled"
+                            value={user.isAdmin ? 'Admin' : 'Normal User'}
+                            color={user.isAdmin ? 'green' : 'blue'}
+                          />
                         </Typography>
                       </td>
                       <td className={`${classes} max-w-[80px]`}>
                         <div className="flex items-center justify-center">
-                          <Link to={`/admin/product/${product._id}/edit`}>
-                            <Tooltip content="Edit Product">
+                          <Link to={`/admin/user/${user._id}/edit`}>
+                            <Tooltip content="Edit user">
                               <IconButton variant="text">
                                 <FaEdit className="h-4 w-4 dark:text-white" />
                               </IconButton>
@@ -181,7 +171,7 @@ const AllProducts = () => {
                           <Tooltip content="Delete">
                             <IconButton
                               variant="text"
-                              onClick={() => deleteHandler(product)}
+                              onClick={() => deleteHandler(user)}
                             >
                               <FaTrash className="h-4 w-4 dark:text-white" />
                             </IconButton>
@@ -200,4 +190,4 @@ const AllProducts = () => {
   );
 };
 
-export default AllProducts;
+export default AllUsers;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import AllOrders from '../../../components/admin/AllOrders';
 import AllProducts from '../../../components/admin/AllProducts';
-// import AllUsers from '../../../components/AllUsers';
+import AllUsers from '../../../components/admin/AllUsers';
 import { Card, Button } from '@material-tailwind/react';
 
 const AdminPage = () => {
@@ -45,7 +45,7 @@ const AdminPage = () => {
           <Card className="lg:w-[80%] h-full border-x-2 border-t-2 border-b-4 shadow-lg flex items-center dark:bg-gray-700 dark:border-gray-800">
             {selectedComponent === 'orders' && <AllOrders />}
             {selectedComponent === 'products' && <AllProducts />}
-            {/* {selectedComponent === 'users' && <AllUsers />} */}
+            {selectedComponent === 'users' && <AllUsers />}
           </Card>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
@@ -59,6 +58,7 @@ const EditProductPage = () => {
     try {
       formData.id = productId;
       await updateProduct(formData);
+      refetch();
       toast.success('Product edited!');
       navigate('/admin/adminpage');
     } catch (error) {

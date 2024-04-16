@@ -221,7 +221,7 @@ const CreateProductPage = () => {
                   }
                 />
                 <Button className="mt-6" fullWidth type="submit">
-                  Update
+                  Create
                 </Button>
               </div>
             </form>

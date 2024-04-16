@@ -46,10 +46,10 @@ const UserProfile = () => {
         email: user.email || '',
         password: '',
         confirmPassword: '',
-        address: user.shippingAddress.address || '',
-        city: user.shippingAddress.city || '',
-        postalCode: user.shippingAddress.postalCode || '',
-        country: user.shippingAddress.country || '',
+        address: user?.shippingAddress?.address || '',
+        city: user?.shippingAddress?.city || '',
+        postalCode: user?.shippingAddress?.postalCode || '',
+        country: user?.shippingAddress?.country || '',
       });
     }
   }, [user]);
@@ -70,6 +70,18 @@ const UserProfile = () => {
 
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
+      return;
+    }
+
+    if (
+      name.trim() === '' ||
+      email.trim() === '' ||
+      address.trim() === '' ||
+      city.trim() === '' ||
+      postalCode.trim() === '' ||
+      country.trim() === ''
+    ) {
+      toast.error('Empty fields');
       return;
     }
 
