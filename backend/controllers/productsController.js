@@ -123,6 +123,52 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Delete a review
+// @route DELETE /api/products/:id/reviews/
+// @access Private
+const deleteProductReview = asyncHandler(async (req, res) => {
+  const { productId, reviewId } = req.body;
+
+  try {
+    // Remove the review from the product
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      {
+        $pull: { reviews: { _id: reviewId } }, // Pull the review by its ID
+        $set: {
+          numReviews: 0, // Reset to recalculate
+          rating: 0, // Reset to recalculate
+        },
+      },
+      { new: true } // Return the updated document
+    );
+
+    // Check if the product exists
+    if (!updatedProduct) {
+      res.status(404);
+      throw new Error('Product not found');
+    }
+
+    // Calculate the new number of reviews and average rating
+    const numReviews = updatedProduct.reviews.length;
+    const totalRating = updatedProduct.reviews.reduce(
+      (accum, review) => accum + review.rating,
+      0
+    );
+    updatedProduct.numReviews = numReviews;
+    updatedProduct.rating = totalRating / numReviews;
+
+    // Save the updated product
+    await updatedProduct.save();
+
+    // Send success response
+    res.status(200).json({ message: 'Review deleted successfully' });
+  } catch (error) {
+    // Handle errors
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+});
+
 export {
   getProducts,
   getProductById,
@@ -130,4 +176,5 @@ export {
   updateProduct,
   deleteProduct,
   createProductReview,
+  deleteProductReview,
 };

@@ -166,8 +166,10 @@ const ProductDetailsPage = () => {
                 submitHandler={submitHandler}
                 isLoadingCreateReview={isLoadingCreateReview}
                 rating={rating}
+                comment={comment}
                 setRating={setRating}
                 setComment={setComment}
+                refetch={refetch}
               />
             </div>
           </div>
