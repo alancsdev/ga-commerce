@@ -94,7 +94,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
-  console.log('body dsadsadsadsa: ', req.body);
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;

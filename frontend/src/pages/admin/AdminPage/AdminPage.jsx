@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import AllOrders from '../../../components/AllOrders';
-import AllProducts from '../../../components/AllProducts';
+import AllOrders from '../../../components/admin/AllOrders';
+import AllProducts from '../../../components/admin/AllProducts';
 // import AllUsers from '../../../components/AllUsers';
 import { Card, Button } from '@material-tailwind/react';
 

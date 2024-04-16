@@ -121,7 +121,7 @@ const UserProfile = () => {
             User Profile
           </Typography>
 
-          <form onSubmit={submitHandler} className="mt-8 mb-2 w-full">
+          <form onSubmit={submitHandler} className="w-full">
             <div className="mb-1 flex flex-col gap-3">
               <Typography
                 variant="h6"

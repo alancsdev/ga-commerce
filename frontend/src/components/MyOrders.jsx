@@ -6,7 +6,7 @@ import { Card, Typography, Chip } from '@material-tailwind/react';
 
 const TABLE_HEAD = ['ID', 'DATE', 'TOTAL', 'STATUS'];
 
-const Orders = () => {
+const MyOrders = () => {
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
   return (
@@ -121,4 +121,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default MyOrders;

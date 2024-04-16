@@ -25,6 +25,8 @@ import PlaceOrderPage from './pages/PlaceOrderPage/PlaceOrderPage.jsx';
 import OrderPage from './pages/OrderPage/OrderPage.jsx';
 import UserProfilePage from './pages/UserProfilePage/UserProfilePage.jsx';
 import AdminPage from './pages/admin/AdminPage/AdminPage.jsx';
+import CreateProductPage from './pages/admin/CreateProductPage/CreateProductPage.jsx';
+import EditProductPage from './pages/admin/EditProductPage/EditProductPage.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,6 +48,8 @@ const router = createBrowserRouter(
       {/* Admin routes */}
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/adminpage" element={<AdminPage />} />
+        <Route path="/admin/create-product" element={<CreateProductPage />} />
+        <Route path="/admin/product/:id/edit" element={<EditProductPage />} />
       </Route>
     </Route>
   )

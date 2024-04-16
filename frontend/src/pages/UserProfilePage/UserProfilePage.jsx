@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import UserProfile from '../../components/UserProfile';
-import Orders from '../../components/Orders';
+import MyOrders from '../../components/MyOrders';
 import { Card, Button } from '@material-tailwind/react';
 
 const UserProfilePage = () => {
@@ -43,7 +43,7 @@ const UserProfilePage = () => {
             </Card>
           ) : (
             <Card className="lg:w-[80%] h-full border-x-2 border-t-2 border-b-4 shadow-lg flex items-center dark:bg-gray-700 dark:border-gray-800">
-              <Orders />
+              <MyOrders />
             </Card>
           )}
         </div>

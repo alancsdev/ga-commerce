@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import Loader from './Loader';
-import Message from './Message';
-import { useGetOrdersQuery } from '../slices/ordersApiSlice';
+import Loader from '../Loader';
+import Message from '../Message';
+import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 import { Card, Typography, Chip } from '@material-tailwind/react';
 
 const TABLE_HEAD = ['ID', 'USER', 'DATE', 'TOTAL', 'STATUS'];
