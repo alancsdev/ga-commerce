@@ -1,14 +1,22 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../Loader';
 import Message from '../Message';
-import { useGetProductsQuery } from '../../slices/productsApiSlice';
+import {
+  useGetProductsQuery,
+  useDeleteProductMutation,
+} from '../../slices/productsApiSlice';
 import {
   Button,
   Card,
   Typography,
   Tooltip,
   IconButton,
+  Dialog,
+  DialogHeader,
+  DialogFooter,
 } from '@material-tailwind/react';
+import { toast } from 'react-toastify';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const TABLE_HEAD = ['ID', 'NAME', 'PRICE', 'CATEGORY', ''];
@@ -16,10 +24,28 @@ const TABLE_HEAD = ['ID', 'NAME', 'PRICE', 'CATEGORY', ''];
 const AllProducts = () => {
   const navigate = useNavigate();
 
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
-  const deleteHandler = (id) => {
-    console.log(id);
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
+  const [deleteProduct, { isLoading: isLoadingDeleteProduct }] =
+    useDeleteProductMutation();
+
+  const deleteHandler = async (product) => {
+    setProductToDelete(product);
+    setOpenDialog(true);
+  };
+
+  const confirmDeleteHandler = async () => {
+    try {
+      await deleteProduct(productToDelete._id);
+      refetch();
+      setOpenDialog(false);
+      toast.success('Product deleted successfully!');
+    } catch (error) {
+      toast.error(error?.data?.message || error.message);
+    }
   };
 
   const createProductHandler = () => {
@@ -45,6 +71,34 @@ const AllProducts = () => {
             >
               Create Product
             </Button>
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+              <DialogHeader>
+                Are you sure you want to delete the product{' '}
+                {productToDelete?.name}?
+              </DialogHeader>
+              <DialogFooter className="flex justify-between">
+                <Button
+                  variant="text"
+                  color="red"
+                  onClick={() => setOpenDialog(false)}
+                  className="mr-1"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button
+                  variant="gradient"
+                  color="green"
+                  onClick={confirmDeleteHandler}
+                >
+                  <span>Confirm</span>
+                </Button>
+              </DialogFooter>
+              {isLoadingDeleteProduct && (
+                <div className="flex justify-center mb-2">
+                  <Loader size={44} />
+                </div>
+              )}
+            </Dialog>
             <table className="w-full min-w-max table-auto text-left m-0 border-collapse dark:bg-gray-700">
               <thead>
                 <tr>
@@ -127,7 +181,7 @@ const AllProducts = () => {
                           <Tooltip content="Delete">
                             <IconButton
                               variant="text"
-                              onClick={() => deleteHandler(product._id)}
+                              onClick={() => deleteHandler(product)}
                             >
                               <FaTrash className="h-4 w-4" />
                             </IconButton>
