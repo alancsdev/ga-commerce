@@ -6,7 +6,13 @@ import {
   useUploadProductImageMutation,
 } from '../../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
-import { Card, Typography, Input, Button } from '@material-tailwind/react';
+import {
+  Card,
+  Typography,
+  Input,
+  Button,
+  Textarea,
+} from '@material-tailwind/react';
 
 const CreateProductPage = () => {
   const navigate = useNavigate();
@@ -43,11 +49,10 @@ const CreateProductPage = () => {
   };
 
   const uploadFileHandler = async (e) => {
-    setFormData({ ...formData, image: e.target.files[0].name });
     const form = new FormData();
-    form.append('image', e.target.files[0]);
+    form.append('productImage', e.target.files[0]);
     try {
-      const res = await uploadProductImage(formData).unwrap();
+      const res = await uploadProductImage(form).unwrap();
       toast.success(res.message);
       setFormData({ ...formData, image: res.image });
     } catch (error) {
@@ -98,7 +103,7 @@ const CreateProductPage = () => {
                 >
                   Description
                 </Typography>
-                <Input
+                <Textarea
                   size="lg"
                   className=" !border-t-blue-gray-200 focus:!border-t-gray-900 dark:text-white"
                   labelProps={{

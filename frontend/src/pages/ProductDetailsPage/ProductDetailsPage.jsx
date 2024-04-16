@@ -1,19 +1,28 @@
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaShoppingCart } from 'react-icons/fa';
 import Rating from '../../components/Rating';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
-import { useGetProductDetailsQuery } from '../../slices/productsApiSlice';
-import { Button, Typography } from '@material-tailwind/react';
+import Reviews from '../../components/Reviews';
+import {
+  useGetProductDetailsQuery,
+  useCreateReviewMutation,
+} from '../../slices/productsApiSlice';
 import { addToCart } from '../../slices/cartSlice';
+import { Button, Typography } from '@material-tailwind/react';
+import { toast } from 'react-toastify';
 
 const ProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
 
   const { id: productId } = useParams();
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
 
@@ -23,11 +32,29 @@ const ProductDetailsPage = () => {
     data: product,
     isLoading,
     error,
+    refetch,
   } = useGetProductDetailsQuery(productId);
+
+  const [createReview, { isLoading: isLoadingCreateReview }] =
+    useCreateReviewMutation();
 
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, quantity }));
     navigate('/cart');
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      await createReview({ productId, rating, comment }).unwrap();
+      refetch();
+      toast.success('Review submitted');
+      setRating(5);
+      setComment('');
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
   };
 
   return (
@@ -122,11 +149,26 @@ const ProductDetailsPage = () => {
 
               <Typography
                 variant="paragraph"
+                className="font-bold text-xl dark:text-white"
+              >
+                Description:
+              </Typography>
+              <Typography
+                variant="paragraph"
                 className="font-normal text-xl dark:text-white"
               >
-                Description: <br />
                 {product.description}
               </Typography>
+
+              <Reviews
+                userInfo={userInfo}
+                product={product}
+                submitHandler={submitHandler}
+                isLoadingCreateReview={isLoadingCreateReview}
+                rating={rating}
+                setRating={setRating}
+                setComment={setComment}
+              />
             </div>
           </div>
         </div>

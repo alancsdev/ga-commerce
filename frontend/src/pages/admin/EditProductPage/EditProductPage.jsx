@@ -7,7 +7,13 @@ import {
   useUpdateProductMutation,
   useUploadProductImageMutation,
 } from '../../../slices/productsApiSlice';
-import { Card, Typography, Input, Button } from '@material-tailwind/react';
+import {
+  Card,
+  Typography,
+  Input,
+  Button,
+  Textarea,
+} from '@material-tailwind/react';
 import { toast } from 'react-toastify';
 
 const EditProductPage = () => {
@@ -140,7 +146,7 @@ const EditProductPage = () => {
                     >
                       Description
                     </Typography>
-                    <Input
+                    <Textarea
                       size="lg"
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900 dark:text-white"
                       labelProps={{
