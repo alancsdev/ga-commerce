@@ -48,7 +48,7 @@ const AllProducts = () => {
       setOpenDialog(false);
       toast.success('Product deleted successfully!');
     } catch (error) {
-      toast.error(error?.data?.message || error.message);
+      toast.error(error?.data?.message || error.message || error.error);
     }
   };
 
