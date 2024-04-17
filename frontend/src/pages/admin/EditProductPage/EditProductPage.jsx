@@ -82,7 +82,8 @@ const EditProductPage = () => {
     try {
       const res = await uploadProductImage(form).unwrap();
       toast.success(res.message);
-      setFormData({ ...formData, image: res.image });
+      // setFormData({ ...formData, image: res.image }); Code to save locally
+      setFormData({ ...formData, image: res.imageUrl });
     } catch (error) {
       toast.error(error?.data?.message || error.error || error.message);
     }
