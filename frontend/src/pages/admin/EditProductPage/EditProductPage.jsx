@@ -68,7 +68,7 @@ const EditProductPage = () => {
       toast.success('Product edited!');
       navigate('/admin/adminpage');
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error(error?.data?.message || error.error || error.message);
     }
   };
 
@@ -84,7 +84,7 @@ const EditProductPage = () => {
       toast.success(res.message);
       setFormData({ ...formData, image: res.image });
     } catch (error) {
-      toast.error(error?.data?.message || error.message);
+      toast.error(error?.data?.message || error.error || error.message);
     }
   };
 
@@ -101,7 +101,7 @@ const EditProductPage = () => {
       ) : errorGetProductDetails ? (
         <Message>
           {errorGetProductDetails?.data?.message ||
-            errorGetProductDetails.error}
+            errorGetProductDetails.message}
         </Message>
       ) : (
         <>

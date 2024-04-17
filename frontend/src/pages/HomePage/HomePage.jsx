@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import ProductCarousel from '../../components/ProductCarousel';
 import Product from '../../components/Product';
 import ProductSkeleton from './../../components/ProductSkeleton';
 import Message from '../../components/Message';
 import Pagination from '../../components/Pagination';
+import Meta from '../../components/Meta';
 import { useGetProductsQuery } from '../../slices/productsApiSlice';
-import { Button, Typography } from '@material-tailwind/react';
 
 const HomePage = () => {
   const { pageNumber, keyword } = useParams();
@@ -38,6 +39,7 @@ const HomePage = () => {
 
   return (
     <>
+      <Meta title={'GA Commerce'} />
       {isLoading ? (
         <div className="flex justify-center">
           <div className="flex justify-center flex-wrap mx-4 md:mx-10 xl:mx-10 w-full bk1:max-w-7xl gap-4">
@@ -53,10 +55,11 @@ const HomePage = () => {
       ) : (
         <div className="flex justify-center h-full">
           <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-[1700px]">
-            <Typography variant="h1" className="mx-auto">
-              Latest Products
-            </Typography>
-
+            {!keyword && (
+              <div>
+                <ProductCarousel products={data.topProducts} />
+              </div>
+            )}
             <div className="flex flex-wrap gap-4 justify-center sm:justify-center bk1:justify-center">
               {data.products.map((product) => (
                 <Product key={product._id} product={product} />

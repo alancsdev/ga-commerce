@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaShoppingCart } from 'react-icons/fa';
@@ -7,6 +7,7 @@ import Rating from '../../components/Rating';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import Reviews from '../../components/Reviews';
+import Meta from '../../components/Meta';
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
@@ -78,6 +79,7 @@ const ProductDetailsPage = () => {
         </Message>
       ) : (
         <div className="flex justify-center h-full">
+          <Meta title={product.name} />
           <div className="mx-4 md:mx-10 xl:mx-10 2xl:max-w-[1700px] h-full">
             <div className="flex h-10 justify-end">
               <Link to="/">

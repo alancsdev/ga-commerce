@@ -89,7 +89,7 @@ const Pagination = ({ pages, page, isAdmin = false, keyword = '' }) => {
             !isAdmin
               ? keyword
                 ? `/search/${keyword}/page/${active + 1}`
-                : `/page/${active - 1}`
+                : `/page/${active + 1}`
               : `/admin/adminpage/${active + 1}`
           }
         >

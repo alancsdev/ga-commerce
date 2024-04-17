@@ -5,12 +5,12 @@ import logo from '../assets/ga-logo.png';
 import SearchInput from './SearchInput.jsx';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { removeCredentials } from '../slices/authSlice';
+import { resetCart } from '../slices/cartSlice.js';
 import { FaShoppingCart, FaUser, FaListAlt } from 'react-icons/fa';
 import { RiAdminFill } from 'react-icons/ri';
 import {
   Navbar,
   Typography,
-  Button,
   IconButton,
   Collapse,
   Badge,
@@ -18,7 +18,6 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  Input,
 } from '@material-tailwind/react';
 import ThemeToggle from './ThemeToggle';
 
@@ -50,6 +49,7 @@ function Header() {
     try {
       await logout().unwrap();
       dispatch(removeCredentials());
+      dispatch(resetCart());
       navigate('/');
       setOpenNav(false);
     } catch (error) {

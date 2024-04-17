@@ -5,7 +5,7 @@ import Product from '../models/productModel.js';
 // @route GET /api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = process.env.PAGINATION_LIMIT;
+  const pageSize = Number(process.env.PAGINATION_LIMIT); // Certifique-se de que é um número
 
   // Page number in the URL
   const page = Number(req.query.pageNumber) || 1;
@@ -15,15 +15,49 @@ const getProducts = asyncHandler(async (req, res) => {
     ? { name: { $regex: req.query.keyword, $options: 'i' } }
     : {};
 
-  // Total number of pages, countDocuments get the total number of products
-  const count = await Product.countDocuments({ ...keyword });
+  // Aggregate pipeline to get products for the current page, total count, and top 5 products
+  const aggregatePipeline = [
+    // Match stage to filter products based on keyword
+    {
+      $match: { ...keyword },
+    },
+    // Sort stage to get top 5 products by rating
+    {
+      $sort: { rating: -1 },
+    },
+    // Group stage to get total count and products
+    {
+      $group: {
+        _id: null,
+        total: { $sum: 1 },
+        products: { $push: '$$ROOT' },
+      },
+    },
+    // Project stage to reshape the output and get topProducts
+    {
+      $project: {
+        _id: 0,
+        total: 1,
+        products: {
+          $slice: ['$products', pageSize * (page - 1), pageSize],
+        },
+        topProducts: {
+          $slice: ['$products', 5],
+        },
+      },
+    },
+  ];
 
-  // Limit the search for the pagesize and skip to skip the products from the previous page
-  const products = await Product.find({ ...keyword })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
+  const [result] = await Product.aggregate(aggregatePipeline);
 
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+  // Extract total count, products, and topProducts from the result
+  const { total, products, topProducts } = result || {
+    total: 0,
+    products: [],
+    topProducts: [],
+  };
+
+  res.json({ products, page, pages: Math.ceil(total / pageSize), topProducts });
 });
 
 // @desc Fetch a product
@@ -152,10 +186,6 @@ const deleteProductReview = asyncHandler(async (req, res) => {
       productId,
       {
         $pull: { reviews: { _id: reviewId } }, // Pull the review by its ID
-        $set: {
-          numReviews: 0, // Reset to recalculate
-          rating: 0, // Reset to recalculate
-        },
       },
       { new: true } // Return the updated document
     );
@@ -168,12 +198,19 @@ const deleteProductReview = asyncHandler(async (req, res) => {
 
     // Calculate the new number of reviews and average rating
     const numReviews = updatedProduct.reviews.length;
-    const totalRating = updatedProduct.reviews.reduce(
-      (accum, review) => accum + review.rating,
-      0
-    );
+    let totalRating = 0;
+
+    if (numReviews > 0) {
+      totalRating = updatedProduct.reviews.reduce(
+        (accum, review) => accum + review.rating,
+        0
+      );
+      updatedProduct.rating = totalRating / numReviews;
+    } else {
+      updatedProduct.rating = 0; // Set rating to 0 if there are no reviews
+    }
+
     updatedProduct.numReviews = numReviews;
-    updatedProduct.rating = totalRating / numReviews;
 
     // Save the updated product
     await updatedProduct.save();
@@ -186,6 +223,20 @@ const deleteProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Get top rated products
+// @route GET /api/products/top
+// @access Public
+// const getTopProducts = asyncHandler(async (req, res) => {
+//   const products = await Product.find({}).sort({ rating: -1 }).limit(5);
+
+//   if (products) {
+//     res.status(200).json(products);
+//   } else {
+//     res.status(404);
+//     throw new Error('Resource not found');
+//   }
+// });
+
 export {
   getProducts,
   getProductById,
@@ -194,4 +245,5 @@ export {
   deleteProduct,
   createProductReview,
   deleteProductReview,
+  // getTopProducts,
 };

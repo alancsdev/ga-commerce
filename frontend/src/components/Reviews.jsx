@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Rating from './Rating';
 import Message from './Message';
@@ -24,15 +24,21 @@ const Reviews = ({
   const [deleteReview, { isLoading: isLoadingDeleteReview }] =
     useDeleteReviewMutation();
 
+  const [deletingReviewId, setDeletingReviewId] = useState(null);
+
   const deleteReviewHandler = async (review) => {
     const { _id: reviewId } = review;
+
+    setDeletingReviewId(reviewId);
 
     try {
       const res = await deleteReview({ productId, reviewId }).unwrap();
       toast.success(res.message);
       refetch();
+      setDeletingReviewId(null);
     } catch (error) {
       toast.error(error?.data?.message || error.message);
+      setDeletingReviewId(null);
     }
   };
 
@@ -136,41 +142,23 @@ const Reviews = ({
             </Typography>
           </div>
           <div className="w-[20%] lg:w-[10%] flex flex-col items-end">
-            <div>
-              {userInfo?.isAdmin && (
-                <>
-                  <Button
-                    className="w-8 h-9 flex flex-col items-center"
-                    onClick={() => deleteReviewHandler(review)}
-                    disabled={isLoadingDeleteReview}
-                  >
-                    <FaTrash className="w-3 h-3" />
-                  </Button>
-                  {isLoadingDeleteReview && (
-                    <div className="mt-2">
-                      <Loader size={44} />
-                    </div>
-                  )}
-                </>
-              )}
-
-              {userInfo?._id === review.user && !userInfo?.isAdmin && (
-                <>
-                  <Button
-                    className="w-8 h-9 flex flex-col items-center"
-                    onClick={() => deleteReviewHandler(review)}
-                    disabled={isLoadingDeleteReview}
-                  >
-                    <FaTrash className="w-3 h-3" />
-                  </Button>
-                  {isLoadingDeleteReview && (
-                    <div className="mt-2">
-                      <Loader size={44} />
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
+            {(userInfo?.isAdmin ||
+              (userInfo?._id === review.user && !userInfo?.isAdmin)) && (
+              <>
+                <Button
+                  className="w-8 h-9 flex flex-col items-center"
+                  onClick={() => deleteReviewHandler(review)}
+                  disabled={deletingReviewId === review._id}
+                >
+                  <FaTrash className="w-3 h-3" />
+                </Button>
+                {deletingReviewId === review._id && (
+                  <div className="mt-2">
+                    <Loader size={44} />
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </Card>
       ))}
