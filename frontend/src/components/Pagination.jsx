@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, IconButton } from '@material-tailwind/react';
-import { FaLongArrowAltLeft, FaLongArrowAltRight } from 'react-icons/fa';
 
-const Pagination = ({ pages, page, isAdmin = false }) => {
+const Pagination = ({ pages, page, isAdmin = false, keyword = '' }) => {
   const [active, setActive] = useState(page);
 
   const prev = () => {
@@ -41,7 +40,11 @@ const Pagination = ({ pages, page, isAdmin = false }) => {
       <div className="flex items-center justify-center">
         <Link
           to={
-            !isAdmin ? `/page/${active - 1}` : `/admin/adminpage/${active - 1}`
+            !isAdmin
+              ? keyword
+                ? `/search/${keyword}/page/${active - 1}`
+                : `/page/${active - 1}`
+              : `/admin/adminpage/${active - 1}`
           }
           className=""
         >
@@ -62,7 +65,9 @@ const Pagination = ({ pages, page, isAdmin = false }) => {
               to={
                 pageNumber !== '...'
                   ? !isAdmin
-                    ? `/page/${pageNumber}`
+                    ? keyword
+                      ? `/search/${keyword}/page/${pageNumber}`
+                      : `/page/${pageNumber}`
                     : `/admin/adminpage/${pageNumber}`
                   : '#'
               }
@@ -81,7 +86,11 @@ const Pagination = ({ pages, page, isAdmin = false }) => {
         </div>
         <Link
           to={
-            !isAdmin ? `/page/${active + 1}` : `/admin/adminpage/${active + 1}`
+            !isAdmin
+              ? keyword
+                ? `/search/${keyword}/page/${active + 1}`
+                : `/page/${active - 1}`
+              : `/admin/adminpage/${active + 1}`
           }
         >
           <Button

@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Product from '../../components/Product';
 import ProductSkeleton from './../../components/ProductSkeleton';
 import Message from '../../components/Message';
 import Pagination from '../../components/Pagination';
 import { useGetProductsQuery } from '../../slices/productsApiSlice';
-import { Typography } from '@material-tailwind/react';
+import { Button, Typography } from '@material-tailwind/react';
 
 const HomePage = () => {
-  const { pageNumber } = useParams();
+  const { pageNumber, keyword } = useParams();
 
-  const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
+  const { data, isLoading, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
 
   const [numSkeletons, setNumSkeletons] = useState(1);
 
@@ -60,7 +63,11 @@ const HomePage = () => {
               ))}
             </div>
             <div className="mt-2">
-              <Pagination page={data.page} pages={data.pages} />
+              <Pagination
+                page={data.page}
+                pages={data.pages}
+                keyword={keyword ? keyword : ''}
+              />
             </div>
           </div>
         </div>

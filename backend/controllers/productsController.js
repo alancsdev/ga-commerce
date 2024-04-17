@@ -10,11 +10,16 @@ const getProducts = asyncHandler(async (req, res) => {
   // Page number in the URL
   const page = Number(req.query.pageNumber) || 1;
 
+  // Regex for searching for products - options to make case insensitive
+  const keyword = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: 'i' } }
+    : {};
+
   // Total number of pages, countDocuments get the total number of products
-  const count = await Product.countDocuments();
+  const count = await Product.countDocuments({ ...keyword });
 
   // Limit the search for the pagesize and skip to skip the products from the previous page
-  const products = await Product.find({})
+  const products = await Product.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
