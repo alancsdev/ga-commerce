@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import Message from '../Message';
+import Pagination from '../Pagination';
 import {
   useGetAllUsersQuery,
   useDeleteUserMutation,
@@ -26,7 +27,11 @@ const AllUsers = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
 
-  const { data: users, isLoading, error, refetch } = useGetAllUsersQuery();
+  const { pageNumber } = useParams();
+
+  const { data, isLoading, error, refetch } = useGetAllUsersQuery({
+    pageNumber,
+  });
 
   const [deleteUser, { isLoading: isLoadingDeleteUser }] =
     useDeleteUserMutation();
@@ -108,8 +113,8 @@ const AllUsers = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => {
-                  const isLast = index === users.length - 1;
+                {data.users.map((user, index) => {
+                  const isLast = index === data.users.length - 1;
                   const classes = isLast
                     ? 'p-3'
                     : 'p-3 border-b border-blue-gray-50';
@@ -183,6 +188,9 @@ const AllUsers = () => {
                 })}
               </tbody>
             </table>
+            <div className="my-2 w-full">
+              <Pagination page={data.page} pages={data.pages} isAdmin />
+            </div>
           </Card>
         </>
       )}

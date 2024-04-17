@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AllOrders from '../../../components/admin/AllOrders';
 import AllProducts from '../../../components/admin/AllProducts';
 import AllUsers from '../../../components/admin/AllUsers';
@@ -7,8 +8,11 @@ import { Card, Button } from '@material-tailwind/react';
 const AdminPage = () => {
   const [selectedComponent, setSelectedComponent] = useState('orders');
 
+  const navigate = useNavigate();
+
   const handleShowComponent = (component) => {
     setSelectedComponent(component);
+    navigate(`/admin/adminpage/1`);
   };
 
   return (

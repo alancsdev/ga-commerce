@@ -166,8 +166,21 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 // @route   GET /api/orders
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name');
-  res.json(orders);
+  const pageSize = process.env.PAGINATION_LIMIT;
+
+  // Page number in the URL
+  const page = Number(req.query.pageNumber) || 1;
+
+  // Total number of pages, countDocuments get the total number of orders
+  const count = await Order.countDocuments();
+
+  // Limit the search for the pagesize and skip to skip the products from the previous page
+  const orders = await Order.find({})
+    .populate('user', 'id name')
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({ orders, page, pages: Math.ceil(count / pageSize) });
 });
 
 export {

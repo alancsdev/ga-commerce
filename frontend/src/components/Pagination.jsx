@@ -43,10 +43,11 @@ const Pagination = ({ pages, page, isAdmin = false }) => {
           to={
             !isAdmin ? `/page/${active - 1}` : `/admin/adminpage/${active - 1}`
           }
+          className=""
         >
           <Button
             variant="text"
-            className="flex items-center gap-1 rounded-full dark:text-white p-2"
+            className="flex items-center gap-1 rounded-full dark:text-white"
             onClick={prev}
             disabled={active === 1}
           >
@@ -85,7 +86,7 @@ const Pagination = ({ pages, page, isAdmin = false }) => {
         >
           <Button
             variant="text"
-            className="flex items-center rounded-full dark:text-white p-2"
+            className="flex items-center rounded-full dark:text-white"
             onClick={next}
             disabled={active === pages}
           >

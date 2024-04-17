@@ -1,13 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import Message from '../Message';
+import Pagination from '../Pagination';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 import { Card, Typography, Chip } from '@material-tailwind/react';
 
 const TABLE_HEAD = ['ID', 'USER', 'DATE', 'TOTAL', 'STATUS'];
 
-const Orders = () => {
-  const { data: orders, isLoading, error } = useGetOrdersQuery();
+const Orders = ({ page }) => {
+  const { pageNumber } = useParams();
+  const { data, isLoading, error } = useGetOrdersQuery({
+    pageNumber,
+  });
 
   return (
     <>
@@ -21,8 +25,8 @@ const Orders = () => {
         </Message>
       ) : (
         <>
-          <Card className="h-full w-full dark:bg-gray-700 overflow-x-auto rounded-lg ">
-            <table className="w-full min-w-max table-auto text-left m-0 border-collapse">
+          <Card className="h-full w-full dark:bg-gray-800 overflow-x-auto rounded-lg ">
+            <table className="w-full min-w-max table-auto text-left m-0 border-collapse dark:bg-gray-700">
               <thead>
                 <tr>
                   {TABLE_HEAD.map((head) => (
@@ -42,8 +46,8 @@ const Orders = () => {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order, index) => {
-                  const isLast = index === orders.length - 1;
+                {data.orders.map((order, index) => {
+                  const isLast = index === data.orders.length - 1;
                   const classes = isLast
                     ? 'p-3'
                     : 'p-3 border-b border-blue-gray-50';
@@ -123,6 +127,13 @@ const Orders = () => {
                 })}
               </tbody>
             </table>
+            <div className="my-2 w-full">
+              <Pagination
+                page={page ? page : data.page}
+                pages={data.pages}
+                isAdmin
+              />
+            </div>
           </Card>
         </>
       )}
