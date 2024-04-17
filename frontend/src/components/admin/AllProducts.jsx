@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import Message from '../Message';
 import {
@@ -18,16 +18,20 @@ import {
 } from '@material-tailwind/react';
 import { toast } from 'react-toastify';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import Pagination from '../Pagination';
 
 const TABLE_HEAD = ['ID', 'NAME', 'PRICE', 'CATEGORY', ''];
 
 const AllProducts = () => {
   const navigate = useNavigate();
+  const { pageNumber } = useParams();
 
   const [openDialog, setOpenDialog] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
 
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+  });
 
   const [deleteProduct, { isLoading: isLoadingDeleteProduct }] =
     useDeleteProductMutation();
@@ -119,8 +123,8 @@ const AllProducts = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product, index) => {
-                  const isLast = index === products.length - 1;
+                {data.products.map((product, index) => {
+                  const isLast = index === data.products.length - 1;
                   const classes = isLast
                     ? 'p-3'
                     : 'p-3 border-b border-blue-gray-50';
@@ -193,6 +197,9 @@ const AllProducts = () => {
                 })}
               </tbody>
             </table>
+            <div className="my-2 w-full">
+              <Pagination page={data.page} pages={data.pages} isAdmin />
+            </div>
           </Card>
         </>
       )}
