@@ -192,6 +192,10 @@ const updateUser = asyncHandler(async (req, res) => {
       country: req.body.country ?? user.shippingAddress?.country,
     };
 
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
     const updatedUser = await user.save();
 
     res.json({
