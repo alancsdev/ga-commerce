@@ -7,45 +7,70 @@ This was a project to practice MERN Stack.
 # Features:
 
 🟢 Shopping cart
+
 🟢 Product reviews and ratings
+
 🟢 Top products carousel
+
 🟢 Product pagination
+
 🟢 Product search
+
 🟢 User profile with orders and edit profile
+
 🟢 User add and delete reviews
+
 🟢 Admin Product management with image upload in cloudinary
+
 🟢 Admin User management
+
 🟢 Admin Order management
+
 🟢 Admin add and delete all reviews
+
 🟢 Checkout process (shipping, payment method, place order)
+
 🟢 PayPal / credit card integration
+
 🟢 Dark Mode
+
 🟢 Database seeder (products & users)
+
 
 # Technologies
 
 🔵 React.js
+
 🔵 Redux Toolkit
+
 🔵 Node.js
+
 🔵 Express
+
 🔵 MongoDB
+
 🔵 Tailwind CSS
+
 🔵 Material Tailwind
+
 🔵 Cloudinary
+
 🔵 React PayPal
+
 🔵 And others libraries
+
 
 # Screenshots:
 
 <div style="display: inline_block"><br>
-  <img align="center" alt="Alan-Js" height="30" width="40" src="/Project Images/1.png">
-  <img align="center" alt="Alan-Js" height="30" width="40" src="/Project Images/2.png">
-  <img align="center" alt="Alan-Js" height="30" width="40" src="/Project Images/3.png">
-  <img align="center" alt="Alan-Js" height="30" width="40" src="/Project Images/4.png">
-  <img align="center" alt="Alan-Js" height="30" width="40" src="/Project Images/5.png">
-  <img align="center" alt="Alan-Js" height="30" width="40" src="/Project Images/6.png">
-  <img align="center" alt="Alan-Js" height="30" width="40" src="/Project Images/7.png">
-</div>
+  <img align="center" alt="Alan-Js" src="/Project Images/1.png">
+  <img align="center" alt="Alan-Js" src="/Project Images/2.png">
+  <img align="center" alt="Alan-Js" src="/Project Images/3.png">
+  <img align="center" alt="Alan-Js" src="/Project Images/4.png">
+  <img align="center" alt="Alan-Js" src="/Project Images/5.png">
+  <img align="center" alt="Alan-Js" src="/Project Images/6.png">
+  <img align="center" alt="Alan-Js" src="/Project Images/7.png">
+
 
 # Env Variables
 
