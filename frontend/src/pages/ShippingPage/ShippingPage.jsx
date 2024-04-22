@@ -60,15 +60,10 @@ const ShippingPage = () => {
       return;
     }
 
-    // if (!/^\d+$/.test(formData.postalCode)) {
-    //   toast.error('The postal code must contain only numbers');
-    //   return;
-    // }
-
     try {
       const { address, city, postalCode, country } = formData;
       //Unwrap is a redux toolkit function, if don't use unwrap the access will be data:{ object }
-      const res = await updateProfile({
+      await updateProfile({
         address,
         city,
         postalCode,

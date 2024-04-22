@@ -107,11 +107,6 @@ const OrderPage = () => {
       }
     });
   };
-  // const onApproveTest = async () => {
-  //   await payOrder({ orderId, details: { payer: {} } });
-  //   refetch();
-  //   toast.success('Payment successful');
-  // };
   const onError = (error) => {
     toast.error(error.message);
   };
@@ -278,9 +273,6 @@ const OrderPage = () => {
                                 <Loader size={44} />
                               ) : (
                                 <div className="w-full">
-                                  {/* <Button onClick={onApproveTest}>
-                                    Test Pay Order
-                                  </Button> */}
                                   <div>
                                     <PayPalButtons
                                       createOrder={createOrder}
